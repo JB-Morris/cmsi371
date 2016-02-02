@@ -12,14 +12,28 @@
     var renderingContext = canvas.getContext("2d");
 
     // Declare other variables here.
-    var radialGradient = renderingContext.createRadialGradient(160, 160, 1, 180, 180, 320);
+    // var radialGradient = renderingContext.createRadialGradient(160, 160, 1, 180, 180, 320);
+    var legoBody = new Image();
+    var legoRightArm = new Image();
+    var legoLeftArm = new Image();
+    var legoHip = new Image();
+    var legoRightLeg = new Image();
+    var legoLeftLeg = new Image();
+    
+    legoBody.src = "batman-body-front.png"
+    
+    var legoBodyLoaded = false;
 
+    legoBody.addEventListener("load", fnction () {
+        pirateLoaded = true;
+    } false);
     // Put your canvas drawing code (and any other code) here.
-    radialGradient.addColorStop(0, "white");
-    radialGradient.addColorStop(1, "blue");
+    // radialGradient.addColorStop(0, "white");
+    // radialGradient.addColorStop(1, "blue");
 
-    renderingContext.fillStyle = radialGradient;
-    renderingContext.beginPath();
-    renderingContext.arc(256, 256, 200, 0, Math.PI * 2, true);
-    renderingContext.fill();
+
+    // renderingContext.fillStyle = radialGradient;
+    // renderingContext.beginPath();
+    // renderingContext.arc(256, 256, 200, 0, Math.PI * 2, true);
+    // renderingContext.fill();
 }());

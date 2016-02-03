@@ -8,13 +8,11 @@
 // from the global namespace.
 (function () {
     // Ditto on using jQuery here.
-    var canvas = document.getElementById("canvas");
-    var renderingContext = canvas.getContext("2d");
+
 
     // Declare other variables here.
     // var radialGradient = renderingContext.createRadialGradient(160, 160, 1, 180, 180, 320);
-    
-    window.SpriteLibrary = { };
+    window.SpriteLibrary = window.SpriteLibrary || { };
 
     var legoBody = new Image();
     var legoRightArm = new Image();
@@ -24,15 +22,8 @@
     var legoLeftLeg = new Image();
     var legoHead = new Image();
     var legoCape = new Image();
-    
-    legoBody.src = "images/batman-body-front.png";
-    legoRightArm.src = "images/batman-right-arm-front.png";
-    legoLeftArm.src = "images/batman-left-arm-front.png";
-    legoRightLeg.src = "images/batman-right-leg-front.png";
-    legoLeftLeg.src = "images/batman-left-leg-front.png";
-    legoHip.src = "images/batman-hip-front.png";
-    legoHead.src = "images/batman-front-head";
-    legoCape.src = "images/batman-cape";
+
+    var testImage = new Image();
 
     var legoBodyLoaded = false;
     var legoRightArmLoaded = false;
@@ -41,43 +32,79 @@
     var legoLeftLegLoaded = false;
     var legoHipLoaded = false;
     var legoHeadLoaded = false;
-    var legoCapeLoaded = false
+    var legoCapeLoaded = false;
 
     legoBody.addEventListener("load", function () {
         legoBodyLoaded = true;
-    } false);
+    }, false);
+
     legoRightArm.addEventListener("load", function () {
         legoRightArmLoaded = true;
-    } false);
+    }, false);
     legoLeftArm.addEventListener("load", function () {
         legoLeftArmLoaded = true;
-    } false);
+    }, false);
     legoRightLeg.addEventListener("load", function () {
         legoRightLegLoaded = true;
-    } false);
+    }, false);
     legoLeftLeg.addEventListener("load", function () {
         legoLeftLegLoaded = true;
-    } false);
+    }, false);
     legoHip.addEventListener("load", function () {
         legoHipLoaded = true;
-    } false);
+    }, false);
     legoHead.addEventListener("load", function () {
         legoHeadLoaded = true;
-    } false);
+    }, false);
     legoCape.addEventListener("load", function () {
         legoCapeLoaded = true;
-    } false);
+    }, false);
 
-    if(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded){
-        renderingContext.drawImage(legoCape, 0, 0);
-        renderingContext.drawImage(legoRightLeg, 0, 0);
-        renderingContext.drawImage(legoLeftLeg, 0, 0);
-        renderingContext.drawImage(legoHip, 0, 0);
-        renderingContext.drawImage(legoRightArm, 0, 0);
-        renderingContext.drawImage(legoLeftArm, 0, 0);
-        renderingContext.drawImage(legoBody, 0, 0);
-        renderingContext.drawImage(legoHead, 0, 0);
+ 
+ 
+    legoBody.src = "images/batman-body-front.png";
+    legoRightArm.src = "images/batman-right-arm-front.png";
+    legoLeftArm.src = "images/batman-left-arm-front.png";
+    legoRightLeg.src = "images/batman-right-leg-front.png";
+    legoLeftLeg.src = "images/batman-left-leg-front.png";
+    legoHip.src = "images/batman-hip-front.png";
+    legoHead.src = "images/batman-front-head.png";
+    legoCape.src = "images/batman-cape.png";
+
+    testImage.src = "llama.jpg"
+
+    
+    SpriteLibrary.legoBatman = function ()  {
+        // headTilt, rightArmROtation, leftArmRotation, rightLegStep, leftLegStep
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+
+        // ctx.save()
+        // ctx.fillRect(100,100,3,3);
+        // ctx.fill();
+        console.log(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded);
+        if(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded){
+            ctx.drawImage(legoCape, 100, 100);
+            // ctx.drawImage(legoRightLeg, 100, 100);
+            // ctx.drawImage(legoLeftLeg, 100, 100);
+            // ctx.drawImage(legoHip, 100, 100);
+            // ctx.drawImage(legoRightArm, 100, 100);
+            // ctx.drawImage(legoLeftArm, 100, 100);
+            // ctx.drawImage(legoBody, 100, 100);
+            // ctx.drawImage(legoHead, 100, 100);
+
+            // ctx.drawImage(testImage, 100, 100);
     }
+        // ctx.restore()
+    };
+
+    
+
+
+
+
+
+
     // Put your canvas drawing code (and any other code) here.
     // radialGradient.addColorStop(0, "white");
     // radialGradient.addColorStop(1, "blue");

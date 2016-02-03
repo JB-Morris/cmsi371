@@ -23,8 +23,14 @@
          rename and edit this file. -->
     <script src="legoBatman.js"></script>
     <script>
-      SpriteLibrary.legoBatman();
-      window.requestanimationframe();
+      var drawScene = function () {
+        SpriteLibrary.legoBatman();
+        window.requestAnimationFrame(drawScene);
+      };
+
+
+      
+      window.requestAnimationFrame(drawScene);
     </script>
   </body>
 </html>

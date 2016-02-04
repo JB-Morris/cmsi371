@@ -14,104 +14,55 @@
     // var radialGradient = renderingContext.createRadialGradient(160, 160, 1, 180, 180, 320);
     window.SpriteLibrary = window.SpriteLibrary || { };
 
-    var legoBody = new Image();
-    var legoRightArm = new Image();
-    var legoLeftArm = new Image();
-    var legoHip = new Image();
-    var legoRightLeg = new Image();
-    var legoLeftLeg = new Image();
-    var legoHead = new Image();
-    var legoCape = new Image();
+    
+    function LegoPart(src) {
+        this.image = new Image();
+        this.image.src = src;
+        this.loaded = false;
+        var thisLegoPart = this
+        this.image.addEventListener("load", function () {
+            thisLegoPart.loaded = true;
+        }, false);
+    }
 
-    var testImage = new Image();
+    var body = new LegoPart("batman-body-front.png");
+    var rightArm = new LegoPart("batman-right-arm-front.png");
+    var leftArm = new LegoPart("batman-left-arm-front.png");
+    var hip = new LegoPart("batman-hip-front.png");
+    var rightLeg = new LegoPart("batman-right-leg-front.png");
+    var leftLeg = new LegoPart("batman-left-leg-front.png");
+    var head = new LegoPart("batman-front-head.png");
+    var cape = new LegoPart("batman-cape.png");
 
-    var legoBodyLoaded = false;
-    var legoRightArmLoaded = false;
-    var legoLeftArmLoaded = false;
-    var legoRightLegLoaded = false;
-    var legoLeftLegLoaded = false;
-    var legoHipLoaded = false;
-    var legoHeadLoaded = false;
-    var legoCapeLoaded = false;
-
-    legoBody.addEventListener("load", function () {
-        legoBodyLoaded = true;
-    }, false);
-
-    legoRightArm.addEventListener("load", function () {
-        legoRightArmLoaded = true;
-    }, false);
-    legoLeftArm.addEventListener("load", function () {
-        legoLeftArmLoaded = true;
-    }, false);
-    legoRightLeg.addEventListener("load", function () {
-        legoRightLegLoaded = true;
-    }, false);
-    legoLeftLeg.addEventListener("load", function () {
-        legoLeftLegLoaded = true;
-    }, false);
-    legoHip.addEventListener("load", function () {
-        legoHipLoaded = true;
-    }, false);
-    legoHead.addEventListener("load", function () {
-        legoHeadLoaded = true;
-    }, false);
-    legoCape.addEventListener("load", function () {
-        legoCapeLoaded = true;
-    }, false);
-
- 
- 
-    legoBody.src = "images/batman-body-front.png";
-    legoRightArm.src = "images/batman-right-arm-front.png";
-    legoLeftArm.src = "images/batman-left-arm-front.png";
-    legoRightLeg.src = "images/batman-right-leg-front.png";
-    legoLeftLeg.src = "images/batman-left-leg-front.png";
-    legoHip.src = "images/batman-hip-front.png";
-    legoHead.src = "images/batman-front-head.png";
-    legoCape.src = "images/batman-cape.png";
-
-    testImage.src = "llama.jpg"
 
     
-    SpriteLibrary.legoBatman = function ()  {
+    SpriteLibrary.legoBatman = function (batmanSpecification)  {
         // headTilt, rightArmROtation, leftArmRotation, rightLegStep, leftLegStep
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");
+        var ctx = batmanSpecification.ctx;
 
-        // ctx.save()
+        ctx.save()
         // ctx.fillRect(100,100,3,3);
         // ctx.fill();
-        console.log(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded);
-        if(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded){
-            ctx.drawImage(legoCape, 100, 100);
-            // ctx.drawImage(legoRightLeg, 100, 100);
-            // ctx.drawImage(legoLeftLeg, 100, 100);
-            // ctx.drawImage(legoHip, 100, 100);
-            // ctx.drawImage(legoRightArm, 100, 100);
-            // ctx.drawImage(legoLeftArm, 100, 100);
-            // ctx.drawImage(legoBody, 100, 100);
-            // ctx.drawImage(legoHead, 100, 100);
+        console.log(body.loaded && rightArm.loaded && leftArm.loaded && rightLeg.loaded && leftLeg.loaded && hip.loaded && head.loaded);
+        // console.log(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded);
+        if (body.loaded && rightArm.loaded && leftArm.loaded && rightLeg.loaded && leftLeg.loaded && hip.loaded && head.loaded){
+            ctx.drawImage(cape.image, 0, 1500);
+
+            ctx.drawImage(rightLeg.image, 850, 2850);
+            ctx.drawImage(leftLeg.image, 1550, 2850);
+
+            ctx.drawImage(hip.image, 900, 2700);
+
+            ctx.drawImage(rightArm.image, 450, 1600);
+            ctx.drawImage(leftArm.image, 1950, 1600);
+
+            ctx.drawImage(body.image, 900, 1500);
+            ctx.drawImage(head.image, 1000, 0);
 
             // ctx.drawImage(testImage, 100, 100);
-    }
-        // ctx.restore()
+        }
+        ctx.restore()
     };
 
-    
 
-
-
-
-
-
-    // Put your canvas drawing code (and any other code) here.
-    // radialGradient.addColorStop(0, "white");
-    // radialGradient.addColorStop(1, "blue");
-
-
-    // renderingContext.fillStyle = radialGradient;
-    // renderingContext.beginPath();
-    // renderingContext.arc(256, 256, 200, 0, Math.PI * 2, true);
-    // renderingContext.fill();
 }());

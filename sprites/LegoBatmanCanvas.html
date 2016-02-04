@@ -11,9 +11,9 @@
   <body>
     <!-- No further elements here; strictly minimalist.
          But of course you may resize your canvas as needed. -->
-    <canvas id="canvas" width="512" height="512">
-      Sorry, but you need a web browser that supports the
-      <code>canvas</code> element.
+    <canvas id="canvas" width="1280" height="720">
+      Sorry, get a real fuckin' web browser that supports the
+      <code>canvas</code> element!
     </canvas>
 
     <!-- Let's add jQuery, even if you might not always use it. -->
@@ -23,14 +23,24 @@
          rename and edit this file. -->
     <script src="legoBatman.js"></script>
     <script>
+
+    (function () {
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+
+      ctx.scale(.15, .15)
       var drawScene = function () {
-        SpriteLibrary.legoBatman();
+        SpriteLibrary.legoBatman({
+          ctx: ctx
+        });
         window.requestAnimationFrame(drawScene);
       };
 
 
       
       window.requestAnimationFrame(drawScene);
+    }());
+      
     </script>
   </body>
 </html>

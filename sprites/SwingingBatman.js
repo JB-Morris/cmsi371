@@ -38,9 +38,9 @@
 
     }
     
-    SpriteLibrary.SwingingBatman = function (swingerSpecification)  {
+    SpriteLibrary.swingingBatman = function (swingerSpecification)  {
         var ctx = swingerSpecification.ctx;
-        var percentTilt = swinger.swing || 0;
+        var swing = swingerSpecification.swing || 0;
         drawSwinger(ctx, swing); 
         
     };

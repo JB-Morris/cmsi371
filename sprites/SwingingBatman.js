@@ -28,11 +28,21 @@
 
     var drawSwinger = function (ctx, swing) {
 
+        var swingAngle = Math.pi / 5;
+
         ctx.save();
         
         if (batman.loaded){
             ctx.drawImage(batman.image, 0, 0);
         }
+
+        ctx.save();
+
+        ctx.translate(0, 0);
+        ctx.rotate(swingAngle);
+        ctx.drawImage(batman.image, 0, 0);
+
+        ctx.restore();
 
         ctx.restore();
 

@@ -12,7 +12,6 @@
 
     // Declare other variables here.
     window.SpriteLibrary = window.SpriteLibrary || { };
-
     
     function Swinger(src) {
         this.image = new Image();
@@ -26,34 +25,31 @@
 
     var batman = new Swinger("SwingingBatman.png");
 
-    var drawSwinger = function (ctx, swing) {
-
-        var swingAngle = Math.pi / 5;
+    var drawSwinger = function (ctx, swing, ropeLength) {
+        var swingAngle = (Math.pi/180)*swing || 0;
+        var rl = ropeLength || 0;
 
         ctx.save();
-        
+
         if (batman.loaded){
-            ctx.drawImage(batman.image, 0, 0);
+            // console.log("drawSwinger");
+            ctx.rotate(swingAngle);
+            ctx.drawImage(batman.image, rl, rl);
+            
+            ctx.beginPath();
+            ctx.moveTo(300,0);
+            ctx.lineTo(rl + 1450 , rl + 1125);
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
         }
 
-        ctx.save();
-
-        ctx.translate(0, 0);
-        ctx.rotate(swingAngle);
-        ctx.drawImage(batman.image, 0, 0);
-
         ctx.restore();
-
-        ctx.restore();
-
     }
-    
     SpriteLibrary.swingingBatman = function (swingerSpecification)  {
         var ctx = swingerSpecification.ctx;
         var swing = swingerSpecification.swing || 0;
-        drawSwinger(ctx, swing); 
-        
+        var ropeLength = swingerSpecification.ropeLength || 0;
+        drawSwinger(ctx, swing, ropeLength);   
     };
-
-
 }());

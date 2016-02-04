@@ -53,11 +53,13 @@
 
             ctx.drawImage(hip.image, 900, 2700);
 
-            ctx.drawImage(rightArm.image, 450, 1600);
-            ctx.drawImage(leftArm.image, 1950, 1600);
+            
 
             ctx.drawImage(body.image, 900, 1500);
             ctx.drawImage(head.image, 1000, 0);
+
+            ctx.drawImage(rightArm.image, 450, 1600);
+            ctx.drawImage(leftArm.image, 1950, 1600);
 
             // ctx.drawImage(testImage, 100, 100);
         }

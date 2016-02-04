@@ -28,11 +28,13 @@
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
 
-      ctx.scale(.7, .7)
+      ctx.scale(.7, .7);
+      ctx.translate(0, 550);
       var drawScene = function () {
         SpriteLibrary.gothamSkyline({
           ctx: ctx,
-          percentTilt: 50
+          percentTilt: 0,
+          percentPan: 100
 
         });
         window.requestAnimationFrame(drawScene);

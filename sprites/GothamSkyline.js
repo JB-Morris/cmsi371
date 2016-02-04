@@ -26,38 +26,38 @@
 
     var foreground = new Buildings("gothamSkyline.png");
     var background = new Buildings("skylineFront.png");
+    var framingBuilding = new Buildings("framingBuilding.svg");
 
-    var drawCity = function (ctx, percentTilt) {
+    var drawCity = function (ctx, percentTilt, percentPan) {
         
-        if(!(0 <= percentTilt && percentTilt <= 100)){
-            console.log("percentTilt must be a value between 0 and 100.");
+        if(!(0 <= percentTilt && percentTilt <= 100 && -100 <= percentPan && percentPan <= 100)){
+            console.log("percentTiltmust be a value between 0 and 100 and percent pan must be a value between -100 and 100");
             if (percentTilt > 100){
                 percentTilt = 100;
-            }else {
+            }else if(percentTilt < 0){
                 percentTilt = 0;
+            }else if(percentPan > 100){
+                percentPan = 0;
+            }else if(percentPan < -100){
+                percentPan = -100;
             }
         }
-        var bgY = percentTilt * 1.9;
 
-
+        var tiltY = percentTilt * 1.9;
+        var panX = percentPan * .9
         ctx.save();
-        
         if (foreground.loaded && background.loaded){
-            ctx.drawImage(background.image, 0, -bgY);
-            ctx.drawImage(foreground.image, 0, 0);
+            ctx.drawImage(background.image, panX + 100, -tiltY - 100);
+            ctx.drawImage(foreground.image, 240, 0);
+            ctx.drawImage(framingBuilding.image, 1.15*(-panX) - 20, -500 + tiltY);
         }
-
         ctx.restore();
-
     }
-    
     SpriteLibrary.gothamSkyline = function (citySpecification)  {
         var ctx = citySpecification.ctx;
         var percentTilt = citySpecification.percentTilt || 0;
+        var percentPan = citySpecification.percentPan || 0;
+        drawCity(ctx, percentTilt, percentPan);
 
-        drawCity(ctx, percentTilt); 
-        
     };
-
-
 }());

@@ -22,19 +22,34 @@
     <!-- This is where most of your action really will be:
          rename and edit this file. -->
     <script src="SwingingBatman.js"></script>
+    <script src="LegoBatman.js"></script>
+    <script src="GothamSkyline.js"></script>
     <script>
 
     (function () {
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
 
-      ctx.scale(.2, .2)
+      ctx.scale(1, 1);
       var drawScene = function () {
-        SpriteLibrary.swingingBatman({
-          ctx: ctx,
-          swing: 50,
-          ropeLength: 100
+        SpriteLibrary.gothamSkyline({
+          ctx: ctx
         });
+      
+        ctx.save()
+
+        ctx.scale(.1, .1);
+
+        SpriteLibrary.swingingBatman({
+          ctx: ctx
+        });
+
+        SpriteLibrary.legoBatman({
+          ctx: ctx
+        });
+
+        ctx.restore();
+        
         window.requestAnimationFrame(drawScene);
       };
   

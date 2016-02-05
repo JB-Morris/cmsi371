@@ -32,23 +32,43 @@
 
       ctx.scale(1, 1);
       var drawScene = function () {
-        SpriteLibrary.gothamSkyline({
-          ctx: ctx
-        });
-      
         ctx.save()
+        ctx.translate(0, 450);
+        ctx.scale(.7,.7);
+        SpriteLibrary.gothamSkyline({
+          ctx: ctx,
+          percentTilt: 0,
+          percentPan: 100
+        });
+        ctx.restore();
 
+        ctx.save()
+        
         ctx.scale(.1, .1);
+        ctx.translate(1450, 1450);
 
         SpriteLibrary.swingingBatman({
-          ctx: ctx
-        });
+          ctx: ctx,
+          swing: 0,
+          ropeLength: 1000
 
-        SpriteLibrary.legoBatman({
-          ctx: ctx
         });
-
         ctx.restore();
+
+        ctx.save();
+        ctx.scale(.1,.1);
+        ctx.translate(8000, 0);
+        SpriteLibrary.legoBatman({
+          ctx: ctx,
+          leftArmRotation: 60,
+          rightArmRotation: 60,
+          leftLegStep: .6,
+          rightLegStep: 1,
+          capeWidth: 2,
+          capeLength: 1
+        });
+        ctx.restore();
+
         
         window.requestAnimationFrame(drawScene);
       };

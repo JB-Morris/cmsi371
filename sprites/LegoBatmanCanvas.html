@@ -28,10 +28,17 @@
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
 
-      ctx.scale(.15, .15)
+      ctx.scale(.15, .15);
+      ctx.translate(1500, 0);
       var drawScene = function () {
         SpriteLibrary.legoBatman({
-          ctx: ctx
+          ctx: ctx,
+          leftArmRotation: 60,
+          rightArmRotation: 60,
+          leftLegStep: 1,
+          rightLegStep: 1,
+          capeWidth: 2,
+          capeLength: 1
         });
         window.requestAnimationFrame(drawScene);
       };

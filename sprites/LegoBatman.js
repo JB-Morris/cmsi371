@@ -35,34 +35,56 @@
     var cape = new LegoPart("batman-cape.png");
 
 
-    
-    SpriteLibrary.legoBatman = function (batmanSpecification)  {
-        // headTilt, rightArmROtation, leftArmRotation, rightLegStep, leftLegStep
-        var ctx = batmanSpecification.ctx;
-
-        ctx.save()
-        // ctx.fillRect(100,100,3,3);
-        // ctx.fill();
-        console.log(body.loaded && rightArm.loaded && leftArm.loaded && rightLeg.loaded && leftLeg.loaded && hip.loaded && head.loaded);
-        // console.log(legoBodyLoaded && legoRightArmLoaded && legoLeftArmLoaded && legoRightLegLoaded && legoLeftLegLoaded && legoHipLoaded && legoHeadLoaded);
+    var drawLegoBatman = function (ctx, leftArmRotation, rightArmRotation, leftLegStep, rightLegStep, capeWidth, capelength) {
         if (body.loaded && rightArm.loaded && leftArm.loaded && rightLeg.loaded && leftLeg.loaded && hip.loaded && head.loaded){
-            ctx.drawImage(cape.image, 0, 1500);
+            ctx.save();
+            ctx.translate(1550, 1600);
+            ctx.scale(capeWidth, capelength);
+            ctx.drawImage(cape.image, -1550, 0);
+            ctx.restore();
 
-            ctx.drawImage(rightLeg.image, 850, 2850);
-            ctx.drawImage(leftLeg.image, 1550, 2850);
+            ctx.save();
+            ctx.translate(850, 2850);
+            ctx.scale(1, rightLegStep);       
+            ctx.drawImage(rightLeg.image, 0, 0);
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(1550, 2850);
+            ctx.scale(1, leftLegStep);
+            ctx.drawImage(leftLeg.image, 0, 0);
+            ctx.restore();
 
             ctx.drawImage(hip.image, 900, 2700);
-
-            
-
+                    
             ctx.drawImage(body.image, 900, 1500);
             ctx.drawImage(head.image, 1000, 0);
 
-            ctx.drawImage(rightArm.image, 450, 1600);
-            ctx.drawImage(leftArm.image, 1950, 1600);
+            ctx.save();
+            ctx.translate(450 + 650, 1750);
+            ctx.rotate(-((Math.PI/180 * -rightArmRotation)));
+            ctx.drawImage(rightArm.image, -650, -150);
 
-            // ctx.drawImage(testImage, 100, 100);
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(1950, 1750);
+            ctx.rotate((Math.PI/180) * -leftArmRotation);
+            ctx.drawImage(leftArm.image, 0, -150);
+            ctx.restore();
+
         }
+
+    }
+    
+    SpriteLibrary.legoBatman = function (batmanSpecification)  {
+        var ctx = batmanSpecification.ctx;
+
+        ctx.save()
+        
+        drawLegoBatman(ctx, batmanSpecification.leftArmRotation, batmanSpecification.rightArmRotation, batmanSpecification.leftLegStep, batmanSpecification.rightLegStep, batmanSpecification.capeWidth, batmanSpecification.capeLength);
+        
+        
         ctx.restore()
     };
 

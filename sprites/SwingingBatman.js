@@ -26,7 +26,7 @@
     var batman = new Swinger("SwingingBatman.png");
 
     var drawSwinger = function (ctx, swing, ropeLength) {
-        var swingAngle = (Math.pi/180)*swing || 0;
+        var swingAngle = (Math.PI/180)*swing || 0;
         var rl = ropeLength || 0;
 
         ctx.save();
@@ -34,11 +34,10 @@
         if (batman.loaded){
             // console.log("drawSwinger");
             ctx.rotate(swingAngle);
-            ctx.drawImage(batman.image, rl, rl);
-            
+            ctx.drawImage(batman.image, rl - 300, rl);
             ctx.beginPath();
-            ctx.moveTo(300,0);
-            ctx.lineTo(rl + 1450 , rl + 1125);
+            ctx.moveTo(0,0);
+            ctx.lineTo(rl + 1150 , rl + 1125);
             ctx.lineWidth = 3;
             ctx.stroke();
 

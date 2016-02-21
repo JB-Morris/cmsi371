@@ -24,9 +24,9 @@
         }, false);
     }
 
-    var foreground = new Buildings("gothamSkyline.png");
-    var background = new Buildings("skylineFront.png");
-    var framingBuilding = new Buildings("framingBuilding.svg");
+    var foreground = new Buildings("../components/gothamSkyline.png");
+    var background = new Buildings("../components/skylineFront.png");
+    var framingBuilding = new Buildings("../components/framingBuilding.svg");
 
     var drawCity = function (ctx, percentTilt, percentPan) {
         

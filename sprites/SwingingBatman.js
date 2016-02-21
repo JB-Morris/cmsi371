@@ -23,7 +23,7 @@
         }, false);
     }
 
-    var batman = new Swinger("SwingingBatman.png");
+    var batman = new Swinger("../components/SwingingBatman.png");
 
     var drawSwinger = function (ctx, swing, ropeLength) {
         var swingAngle = (Math.PI/180)*swing || 0;

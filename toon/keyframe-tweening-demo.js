@@ -20,6 +20,14 @@
         renderingContext.stroke();
     };
 
+    var skyline = function(renderingContext) {
+        SpriteLibrary.gothamSkyline({
+            ctx: renderingContext,
+            percentTilt: 0,
+            percentPan: 100
+        });
+    };
+
 
     // Then, we have "easing functions" that determine how
     // intermediate frames are computed.
@@ -53,6 +61,25 @@
                 }
             ]
         },
+
+        {
+            draw: skyline,
+            keyframes: [
+                {
+                    frame: 0,
+                    tx: 0,
+                    ty: 600,
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 150,
+                    tx: 300,
+                    ty: 600,
+                    ease: KeyframeTweener.quadEaseInOut
+                }
+            ]    
+        },   
 
         {
             draw: circle,

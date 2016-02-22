@@ -24,9 +24,17 @@
         SpriteLibrary.gothamSkyline({
             ctx: renderingContext,
             percentTilt: 0,
-            percentPan: 100
+            percentPan: 0
         });
     };
+
+    var swingingBatman = function(renderingContext) {
+        SpriteLibrary.swingingBatman({
+          ctx: renderingContext,
+          swing: 0,
+          ropeLength: 10
+        });
+    }
 
 
     // Then, we have "easing functions" that determine how
@@ -35,82 +43,127 @@
     // Now, to actually define the animated sprites.  Each sprite
     // has a drawing function and an array of keyframes.
     var sprites = [
-        {
-            draw: square,
-            keyframes: [
-                {
-                    frame: 0,
-                    tx: 20,
-                    ty: 20,
-                    ease: KeyframeTweener.linear
-                },
+        // {
+        //     draw: square,
+        //     keyframes: [
+        //         {
+        //             frame: 0,
+        //             tx: 20,
+        //             ty: 20,
+        //             ease: KeyframeTweener.linear
+        //         },
 
-                {
-                    frame: 30,
-                    tx: 100,
-                    ty: 50,
-                    ease: KeyframeTweener.quadEaseInOut
-                },
+        //         {
+        //             frame: 30,
+        //             tx: 100,
+        //             ty: 50,
+        //             ease: KeyframeTweener.quadEaseInOut
+        //         },
 
-                // The last keyframe does not need an easing function.
-                {
-                    frame: 80,
-                    tx: 80,
-                    ty: 500,
-                    rotate: 60 // Keyframe.rotate uses degrees.
-                }
-            ]
-        },
+        //         // The last keyframe does not need an easing function.
+        //         {
+        //             frame: 80,
+        //             tx: 80,
+        //             ty: 500,
+        //             rotate: 60 // Keyframe.rotate uses degrees.
+        //         }
+        //     ]
+        // },
 
         {
             draw: skyline,
             keyframes: [
                 {
                     frame: 0,
-                    tx: 0,
-                    ty: 600,
+                    sx: .7,
+                    sy: .7,
+                    tx: -300,
+                    ty: 450,
+                    percentPan: 0,
+                    percentTilt: 0,
                     ease: KeyframeTweener.quadEaseInOut
                 },
 
                 {
-                    frame: 150,
-                    tx: 300,
-                    ty: 600,
+                    frame: 300,
+                    sx: .7,
+                    sy: .7,
+                    tx: 0,
+                    ty: 450,
+                    percentPan: 100,
+                    percentTilt: 0,
                     ease: KeyframeTweener.quadEaseInOut
                 }
             ]    
-        },   
+        }, 
 
         {
-            draw: circle,
+            draw: swingingBatman,
             keyframes: [
                 {
-                    frame: 50,
-                    tx: 300,
-                    ty: 600,
-                    sx: 0.5,
-                    sy: 0.5,
-                    ease: KeyframeTweener.quadEaseOut
-                },
-
-                {
                     frame: 100,
-                    tx: 300,
-                    ty: 0,
-                    sx: 3,
-                    sy: 0.25,
-                    ease: KeyframeTweener.quadEaseOut
+                    sx: .1,
+                    sy: .1,
+                    tx: 0,
+                    ty: 200,
+                    rotate: 75,
+                    ease: KeyframeTweener.quadEaseInOut
                 },
 
                 {
                     frame: 150,
-                    tx: 300,
-                    ty: 600,
-                    sx: 0.5,
-                    sy: 0.5
+                    sx: .1,
+                    sy: .1,
+                    tx: 50,
+                    ty: 200,
+                    rotate: -45,
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 165,
+                    sx: .1,
+                    sy: .1,
+                    tx: 1000,
+                    ty: 200,
+                    rotate: -45,
+                    ease: KeyframeTweener.quadEaseInOut
                 }
+
             ]
-        },
+
+        },  
+
+        // {
+        //     draw: circle,
+        //     keyframes: [
+        //         {
+        //             frame: 50,
+        //             tx: 300,
+        //             ty: 600,
+        //             sx: 0.5,
+        //             sy: 0.5,
+        //             ease: KeyframeTweener.quadEaseOut
+        //         },
+
+        //         {
+        //             frame: 100,
+        //             tx: 300,
+        //             ty: 0,
+        //             sx: 3,
+        //             sy: 0.25,
+        //             ease: KeyframeTweener.quadEaseOut
+        //         },
+
+        //         {
+        //             frame: 150,
+        //             tx: 300,
+        //             ty: 600,
+        //             sx: 0.5,
+        //             sy: 0.5
+        //         }
+        //     ]
+        // },
     ];
 
     // Finally, we initialize the engine.  Mainly, it needs

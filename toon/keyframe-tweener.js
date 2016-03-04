@@ -92,6 +92,9 @@
                         var rotateStart = (startKeyframe.rotate || 0) * Math.PI / 180;
                         var rotateDistance = (endKeyframe.rotate || 0) * Math.PI / 180 - rotateStart;
 
+                        var startSpriteSpecification = startKeyframe.spriteSpecification;
+                        var endSpriteSpecification = endKeyframe.spriteSpecification;
+
                         var currentTweenFrame = currentFrame - startKeyframe.frame;
                         var duration = endKeyframe.frame - startKeyframe.frame + 1;
 
@@ -107,6 +110,10 @@
                             ease(currentTweenFrame, sxStart, sxDistance, duration),
                             ease(currentTweenFrame, syStart, syDistance, duration)
                         );
+
+                        for(var specification in startSpriteSpecification) {
+                            
+                        }
 
                         // Draw the sprite.
                         sprites[i].draw(renderingContext);

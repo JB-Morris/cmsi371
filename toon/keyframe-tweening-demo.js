@@ -28,11 +28,11 @@
         });
     };
 
-    var swingingBatman = function(renderingContext) {
+    var swingingBatman = function(renderingContext, swing, ropeLength) {
         SpriteLibrary.swingingBatman({
           ctx: renderingContext,
-          swing: 0,
-          ropeLength: 10
+          swing: swing || 0,
+          ropeLength: ropeLength || 10
         });
     }
 
@@ -117,6 +117,7 @@
                     tx: 50,
                     ty: 200,
                     rotate: -45,
+                    swingingBatman(ctx, 0, ropeLength),
                     ease: KeyframeTweener.quadEaseInOut
                 },
 

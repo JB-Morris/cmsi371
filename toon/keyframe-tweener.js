@@ -92,8 +92,8 @@
                         var rotateStart = (startKeyframe.rotate || 0) * Math.PI / 180;
                         var rotateDistance = (endKeyframe.rotate || 0) * Math.PI / 180 - rotateStart;
 
-                        var startSpriteSpecification = startKeyframe.spriteSpecification;
-                        var endSpriteSpecification = endKeyframe.spriteSpecification;
+                        var startSpriteSpecification = startKeyframe.spriteSpecification || {};
+                        var endSpriteSpecification = endKeyframe.spriteSpecification || {};
 
                         var currentTweenFrame = currentFrame - startKeyframe.frame;
                         var duration = endKeyframe.frame - startKeyframe.frame + 1;
@@ -111,12 +111,20 @@
                             ease(currentTweenFrame, syStart, syDistance, duration)
                         );
 
-                        for(var specification in startSpriteSpecification) {
-                            
+                        var spriteParameters = {
+                            ctx: renderingContext
+                        };
+
+                        for (var specification in startSpriteSpecification) {
+                            console.log(specification);
+                            console.log(startSpriteSpecification.specification);
+                            spriteParameters.specification = ease(currentTweenFrame, startSpriteSpecification.specification, startSpriteSpecification.specification - endSpriteSpecification.specification, duration);
                         }
 
+                        console.log(spriteParameters);
+
                         // Draw the sprite.
-                        sprites[i].draw(renderingContext);
+                        sprites[i].draw(spriteParameters);
 
                         // Clean up.
                         renderingContext.restore();

@@ -20,19 +20,19 @@
         renderingContext.stroke();
     };
 
-    var skyline = function(renderingContext) {
+    var skyline = function(spriteProperties) {
         SpriteLibrary.gothamSkyline({
-            ctx: renderingContext,
-            percentTilt: 0,
-            percentPan: 0
+            ctx: spriteProperties.ctx,
+            percentTilt: spriteProperties.percentTilt || 0,
+            percentPan: spriteProperties.percentPan || 0
         });
     };
 
-    var swingingBatman = function(renderingContext, swing, ropeLength) {
+    var swingingBatman = function(spriteProperties) {
         SpriteLibrary.swingingBatman({
-          ctx: renderingContext,
-          swing: swing || 0,
-          ropeLength: ropeLength || 10
+          ctx: spriteProperties.ctx,
+          swing: spriteProperties.swing || 0,
+          ropeLength: spriteProperties.ropeLength || 0
         });
     }
 
@@ -79,8 +79,10 @@
                     sy: .7,
                     tx: -300,
                     ty: 450,
-                    percentPan: 0,
-                    percentTilt: 0,
+                    spriteSpecification: {
+                        percentPan: 0,
+                        percentTilt: 0
+                    },
                     ease: KeyframeTweener.quadEaseInOut
                 },
 
@@ -90,8 +92,10 @@
                     sy: .7,
                     tx: 0,
                     ty: 450,
-                    percentPan: 100,
-                    percentTilt: 0,
+                    spriteSpecification: {
+                        percentPan: 100,
+                        percentTilt: 0
+                    },
                     ease: KeyframeTweener.quadEaseInOut
                 }
             ]    
@@ -107,6 +111,9 @@
                     tx: 0,
                     ty: 200,
                     rotate: 75,
+                    spriteSpecification: {
+                        ropeLength: 10
+                    },
                     ease: KeyframeTweener.quadEaseInOut
                 },
 
@@ -117,7 +124,9 @@
                     tx: 50,
                     ty: 200,
                     rotate: -45,
-                    swingingBatman(ctx, 0, ropeLength),
+                    spriteSpecification: {
+                        ropeLength: 1000
+                    },
                     ease: KeyframeTweener.quadEaseInOut
                 },
 

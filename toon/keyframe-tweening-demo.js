@@ -20,20 +20,32 @@
         renderingContext.stroke();
     };
 
-    var skyline = function(spriteProperties) {
+    var skyline = function (spriteProperties) {
         SpriteLibrary.gothamSkyline({
             ctx: spriteProperties.ctx,
-            percentTilt: spriteProperties.percentTilt || 0,
-            percentPan: spriteProperties.percentPan || 0
+            percentTilt: spriteProperties.percentTilt,
+            percentPan: spriteProperties.percentPan
         });
     };
 
-    var swingingBatman = function(spriteProperties) {
+    var swingingBatman = function (spriteProperties) {
         SpriteLibrary.swingingBatman({
           ctx: spriteProperties.ctx,
-          swing: spriteProperties.swing || 0,
-          ropeLength: spriteProperties.ropeLength || 0
+          swing: spriteProperties.swing,
+          ropeLength: spriteProperties.ropeLength
         });
+    }
+
+    var legoBatman = function (spriteProperties) {
+        SpriteLibrary.legoBatman({
+            ctx: spriteProperties.ctx,
+            leftArmRotation: spriteProperties.leftArmRotation,
+            rightArmRotation: spriteProperties.rightArmRotation,
+            leftLegStep: spriteProperties.leftLegStep,
+            rightLegStep: spriteProperties.rightLegStep,
+            capeWidth: spriteProperties.capeWidth,
+            capeLength: spriteProperties.capeLength
+        })
     }
 
 
@@ -121,8 +133,8 @@
                     frame: 195,
                     sx: .1,
                     sy: .1,
-                    tx: 0,
-                    ty: 200,
+                    tx: -10,
+                    ty: 50,
                     rotate: 90,
                     spriteSpecification: {
                         ropeLength: 10
@@ -134,8 +146,8 @@
                     frame: 250,
                     sx: .1,
                     sy: .1,
-                    tx: 50,
-                    ty: 200,
+                    tx: -10,
+                    ty: 100,
                     rotate: -10,
                     spriteSpecification: {
                         ropeLength: 2000
@@ -170,10 +182,83 @@
                 // }
 
                 
-
             ]
 
-        },  
+        },
+
+        {
+            draw: legoBatman,
+            keyframes: [
+                {
+                    frame: 300,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 800,
+                    spriteSpecification: {
+                        // leftArmRotation: 0,
+                        // rightArmRotation: 0,
+                        // leftLegStep: 0,
+                        // rightLegStep: 0,
+                        capeWidth: 1,
+                        capeLength: 1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 310,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 400,
+                    spriteSpecification: {
+                        // leftArmRotation: 0,
+                        // rightArmRotation: 0,
+                        // leftLegStep: 0,
+                        // rightLegStep: 0,
+                        capeWidth: 3,
+                        capeLength: 1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 320,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 200,
+                    spriteSpecification: {
+                        // leftArmRotation: 0,
+                        // rightArmRotation: 0,
+                        // leftLegStep: 0,
+                        // rightLegStep: 0,
+                        capeWidth: 1,
+                        capeLength: 1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 400,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 200,
+                    spriteSpecification: {
+                        // leftArmRotation: 0,
+                        // rightArmRotation: 0,
+                        // leftLegStep: 0,
+                        // rightLegStep: 0,
+                        capeWidth: 3,
+                        capeLength: 1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+            ]
+        }  
 
         // {
         //     draw: circle,

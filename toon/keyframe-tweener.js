@@ -94,7 +94,7 @@
 
                         var startSpriteSpecification = startKeyframe.spriteSpecification || {};
                         var endSpriteSpecification = endKeyframe.spriteSpecification || {};
-
+                        
                         var currentTweenFrame = currentFrame - startKeyframe.frame;
                         var duration = endKeyframe.frame - startKeyframe.frame + 1;
 
@@ -116,9 +116,7 @@
                         };
 
                         for (var specification in startSpriteSpecification) {
-                            console.log(specification);
-                            console.log(startSpriteSpecification.specification);
-                            spriteParameters.specification = ease(currentTweenFrame, startSpriteSpecification.specification, startSpriteSpecification.specification - endSpriteSpecification.specification, duration);
+                            spriteParameters[specification] = ease(currentTweenFrame, startSpriteSpecification[specification], endSpriteSpecification[specification] - startSpriteSpecification[specification], duration);
                         }
 
                         console.log(spriteParameters);

@@ -77,26 +77,39 @@
                     frame: 0,
                     sx: .7,
                     sy: .7,
-                    tx: -300,
+                    tx: -290,
                     ty: 450,
                     spriteSpecification: {
-                        percentPan: 0,
+                        percentPan: 100,
+                        percentTilt: 75
+                    },
+                    ease: KeyframeTweener.linear
+                },
+
+                {
+                    frame: 100,
+                    sx: .7,
+                    sy: .7,
+                    tx: -190,
+                    ty: 450,
+                    spriteSpecification: {
+                        percentPan: 50,
                         percentTilt: 0
                     },
-                    ease: KeyframeTweener.quadEaseInOut
+                    ease: KeyframeTweener.quadEaseOut
                 },
 
                 {
                     frame: 300,
                     sx: .7,
                     sy: .7,
-                    tx: 0,
+                    tx: 10,
                     ty: 450,
                     spriteSpecification: {
-                        percentPan: 100,
+                        percentPan: 0,
                         percentTilt: 0
                     },
-                    ease: KeyframeTweener.quadEaseInOut
+                    ease: KeyframeTweener.quadEaseOut
                 }
             ]    
         }, 
@@ -105,40 +118,58 @@
             draw: swingingBatman,
             keyframes: [
                 {
-                    frame: 100,
+                    frame: 195,
                     sx: .1,
                     sy: .1,
                     tx: 0,
                     ty: 200,
-                    rotate: 75,
+                    rotate: 90,
                     spriteSpecification: {
                         ropeLength: 10
                     },
-                    ease: KeyframeTweener.quadEaseInOut
+                    ease: KeyframeTweener.quadEaseIn
                 },
 
                 {
-                    frame: 150,
+                    frame: 250,
                     sx: .1,
                     sy: .1,
                     tx: 50,
                     ty: 200,
-                    rotate: -45,
+                    rotate: -10,
                     spriteSpecification: {
-                        ropeLength: 1000
+                        ropeLength: 2000
                     },
-                    ease: KeyframeTweener.quadEaseInOut
+                    ease: KeyframeTweener.quadEaseOut
                 },
 
                 {
-                    frame: 165,
+                    frame: 260,
                     sx: .1,
                     sy: .1,
-                    tx: 1000,
+                    tx: 50,
                     ty: 200,
-                    rotate: -45,
-                    ease: KeyframeTweener.quadEaseInOut
-                }
+                    rotate: -20,
+                    spriteSpecification: {
+                        ropeLength: 7000
+                    },
+                    ease: KeyframeTweener.quadEaseOut
+                },
+                
+                // {
+                //     frame: 175,
+                //     sx: .1,
+                //     sy: .1,
+                //     tx: 50,
+                //     ty: 200,
+                //     rotate: -10,
+                //     spriteSpecification: {
+                //         ropeLength: 10000
+                //     },
+                //     ease: KeyframeTweener.quadEaseInOut
+                // }
+
+                
 
             ]
 

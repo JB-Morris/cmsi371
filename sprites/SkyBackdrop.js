@@ -14,7 +14,7 @@
     window.SpriteLibrary = window.SpriteLibrary || { };
 
     
-    function Building(src) {
+    function Backdrop (src) {
         this.image = new Image();
         this.image.src = src;
         this.loaded = false;
@@ -24,21 +24,20 @@
         }, false);
     }
 
-    var alleyway = new Building ("../components/alleywayTall.svg");
+    var sky = new Backdrop ("../components/skyBackdrop.svg");
 
-    var drawAlley = function (ctx) {
+    var drawSky = function (ctx) {
  
         ctx.save();
-        if (alleyway.loaded) {
-            ctx.drawImage(alleyway.image, 0, 0);
-            console.log("suh dude");
+        if (sky.loaded) {
+            ctx.drawImage(sky.image, 0, 0);
         }
         ctx.restore();
     }
-    SpriteLibrary.alleyway = function (citySpecification)  {
+    SpriteLibrary.skyBackdrop = function (citySpecification)  {
         var ctx = citySpecification.ctx;
         ctx.save();
-        drawAlley(ctx);
+        drawSky(ctx);
         ctx.restore();
     };
 }());

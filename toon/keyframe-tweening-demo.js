@@ -48,9 +48,11 @@
         });
     };
 
-    
-
-    
+    var nightSky = function (spriteProperties) {
+        SpriteLibrary.skyBackdrop({
+            ctx: spriteProperties.ctx
+        });
+    };
 
     // Then, we have "easing functions" that determine how
     // intermediate frames are computed.
@@ -60,15 +62,36 @@
     var sprites = [
 
         {
-            draw: skyline,
+            draw: nightSky,
             keyframes: [
                 {
                     frame: 0,
+                    sx: 1,
+                    sy: 1,
+                    tx: 0,
+                    ty: 0,
+                },
+
+                {
+                    frame: 1000,
+                    sx: 1,
+                    sy: 1,
+                    tx: 0,
+                    ty: 0,
+                }                 
+            ]
+        },
+
+        {
+            draw: skyline,
+            keyframes: [
+                {
+                    frame: 1,
                     sx: .7,
                     sy: .7,
                     tx: -290,
                     ty: 450,
-                    spriteSpecification: {
+                    spriteSpecification:{
                         percentPan: 100,
                         percentTilt: 75
                     },
@@ -89,7 +112,7 @@
                 },
 
                 {
-                    frame: 300,
+                    frame: 265,
                     sx: .7,
                     sy: .7,
                     tx: 10,
@@ -143,13 +166,12 @@
                         ropeLength: 7000
                     },
                     ease: KeyframeTweener.quadEaseOut
-                },
+                }
 
             ]
 
         },
-
-        
+    
 
         {
             draw: alleyway,
@@ -157,50 +179,56 @@
 
                 {
                     frame: 270,
-                    sx: .7,
-                    sy: .7,
-                    tx: 0,
+                    sx: 1.5,
+                    sy: 1.5,
+                    tx: -500,
                     ty: 900,
                 },
 
                 {
                     frame: 300,
-                    sx: .7,
-                    sy: .7,
-                    tx: 0,
+                    sx: 1.5,
+                    sy: 1.5,
+                    tx: -500,
                     ty: 750,
                     ease: KeyframeTweener.quadEaseIn
                 },
 
                 {
-                    frame: 310,
-                    sx: .7,
-                    sy: .7,
-                    tx: 0,
+                    frame: 315,
+                    sx: 1.5,
+                    sy: 1.5,
+                    tx: -500,
                     ty: 0
                 },
 
                 {
-                    frame: 410,
-                    sx: .7,
-                    sy: .7,
-                    tx: 0,
-                    ty: 0
+                    frame: 415,
+                    sx: 1.5,
+                    sy: 1.5,
+                    tx: -500,
+                    ty: -725
 
                 },
 
                 {
-                    frame: 510,
-                    sx: .7,
-                    sy: .7,
-                    tx: 0,
-                    ty: 0
+                    frame: 420,
+                    sx: 1.5,
+                    sy: 1.5,
+                    tx: -500,
+                    ty: -730
 
-                },                
+                }, 
 
+                {
+                    frame: 520,
+                    sx: 1.5,
+                    sy: 1.5,
+                    tx: -500,
+                    ty: -730
 
+                }             
             ]
-
         },
 
         {
@@ -209,8 +237,8 @@
 
                 {
                     frame: 260,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
                     ty: -2000,
                     spriteSpecification: {
@@ -225,8 +253,8 @@
                 },
                 {
                     frame: 300,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
                     ty: -200,
                     spriteSpecification: {
@@ -242,8 +270,8 @@
 
                 {
                     frame: 305,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
                     ty: -100,
                     spriteSpecification: {
@@ -259,8 +287,8 @@
 
                 {
                     frame: 310,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
                     ty: 0,
                     spriteSpecification: {
@@ -276,8 +304,8 @@
 
                 {
                     frame: 315,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
                     ty: 100,
                     spriteSpecification: {
@@ -293,8 +321,8 @@
 
                 {
                     frame: 415,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
                     ty: 200,
                     spriteSpecification: {
@@ -310,10 +338,10 @@
 
                 {
                     frame: 420,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
-                    ty: 300,
+                    ty: 400,
                     spriteSpecification: {
                         leftArmRotation: 0,
                         rightArmRotation: 0,
@@ -328,10 +356,10 @@
 
                 {
                     frame: 435,
-                    sx: .1,
-                    sy: .1,
+                    sx: .08,
+                    sy: .08,
                     tx: 500,
-                    ty: 300,
+                    ty: 400,
                     spriteSpecification: {
                         leftArmRotation: 0,
                         rightArmRotation: 0,
@@ -342,6 +370,23 @@
                     },
                     ease: KeyframeTweener.quadEaseInOut
                 },
+
+                {
+                    frame: 535,
+                    sx: .08,
+                    sy: .08,
+                    tx: 500,
+                    ty: 400,
+                    spriteSpecification: {
+                        leftArmRotation: 0,
+                        rightArmRotation: 0,
+                        leftLegStep: 1,
+                        rightLegStep: 1,
+                        capeWidth: 1,
+                        capeLength: 1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                }
 
             ]
         },

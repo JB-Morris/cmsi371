@@ -119,7 +119,6 @@
                             spriteParameters[specification] = ease(currentTweenFrame, startSpriteSpecification[specification], endSpriteSpecification[specification] - startSpriteSpecification[specification], duration);
                         }
 
-                        console.log(spriteParameters);
 
                         // Draw the sprite.
                         sprites[i].draw(spriteParameters);

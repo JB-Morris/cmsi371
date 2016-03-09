@@ -8,16 +8,10 @@
     // First, a selection of "drawing functions" from which we
     // can choose.  Their common trait: they all accept a single
     // renderingContext argument.
-    var square = function (renderingContext) {
-        renderingContext.fillStyle = "blue";
-        renderingContext.fillRect(-20, -20, 40, 40);
-    };
 
-    var circle = function (renderingContext) {
-        renderingContext.strokeStyle = "red";
-        renderingContext.beginPath();
-        renderingContext.arc(0, 0, 50, 0, Math.PI * 2);
-        renderingContext.stroke();
+    var transitionBlack = function (spriteProperties) {
+        spriteProperties.ctx.fillStyle = "black"
+        spriteProperties.ctx.fillRect(0, 0, 400, 400);
     };
 
     var skyline = function (spriteProperties) {
@@ -34,7 +28,7 @@
           swing: spriteProperties.swing,
           ropeLength: spriteProperties.ropeLength
         });
-    }
+    };
 
     var legoBatman = function (spriteProperties) {
         SpriteLibrary.legoBatman({
@@ -45,9 +39,18 @@
             rightLegStep: spriteProperties.rightLegStep,
             capeWidth: spriteProperties.capeWidth,
             capeLength: spriteProperties.capeLength
-        })
-    }
+        });
+    };
 
+    var alleyway = function (spriteProperties) {
+        SpriteLibrary.alleyway({
+            ctx: spriteProperties.ctx
+        });
+    };
+
+    
+
+    
 
     // Then, we have "easing functions" that determine how
     // intermediate frames are computed.
@@ -55,32 +58,6 @@
     // Now, to actually define the animated sprites.  Each sprite
     // has a drawing function and an array of keyframes.
     var sprites = [
-        // {
-        //     draw: square,
-        //     keyframes: [
-        //         {
-        //             frame: 0,
-        //             tx: 20,
-        //             ty: 20,
-        //             ease: KeyframeTweener.linear
-        //         },
-
-        //         {
-        //             frame: 30,
-        //             tx: 100,
-        //             ty: 50,
-        //             ease: KeyframeTweener.quadEaseInOut
-        //         },
-
-        //         // The last keyframe does not need an easing function.
-        //         {
-        //             frame: 80,
-        //             tx: 80,
-        //             ty: 500,
-        //             rotate: 60 // Keyframe.rotate uses degrees.
-        //         }
-        //     ]
-        // },
 
         {
             draw: skyline,
@@ -167,21 +144,61 @@
                     },
                     ease: KeyframeTweener.quadEaseOut
                 },
-                
-                // {
-                //     frame: 175,
-                //     sx: .1,
-                //     sy: .1,
-                //     tx: 50,
-                //     ty: 200,
-                //     rotate: -10,
-                //     spriteSpecification: {
-                //         ropeLength: 10000
-                //     },
-                //     ease: KeyframeTweener.quadEaseInOut
-                // }
 
-                
+            ]
+
+        },
+
+        
+
+        {
+            draw: alleyway,
+            keyframes: [
+
+                {
+                    frame: 270,
+                    sx: .7,
+                    sy: .7,
+                    tx: 0,
+                    ty: 900,
+                },
+
+                {
+                    frame: 300,
+                    sx: .7,
+                    sy: .7,
+                    tx: 0,
+                    ty: 750,
+                    ease: KeyframeTweener.quadEaseIn
+                },
+
+                {
+                    frame: 310,
+                    sx: .7,
+                    sy: .7,
+                    tx: 0,
+                    ty: 0
+                },
+
+                {
+                    frame: 410,
+                    sx: .7,
+                    sy: .7,
+                    tx: 0,
+                    ty: 0
+
+                },
+
+                {
+                    frame: 510,
+                    sx: .7,
+                    sy: .7,
+                    tx: 0,
+                    ty: 0
+
+                },                
+
+
             ]
 
         },
@@ -189,19 +206,53 @@
         {
             draw: legoBatman,
             keyframes: [
+
+                {
+                    frame: 260,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: -2000,
+                    spriteSpecification: {
+                        leftArmRotation: 60,
+                        rightArmRotation: 60,
+                        leftLegStep: .6,
+                        rightLegStep: 1,
+                        capeWidth: 2,
+                        capeLength: -1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
                 {
                     frame: 300,
                     sx: .1,
                     sy: .1,
                     tx: 500,
-                    ty: 800,
+                    ty: -200,
                     spriteSpecification: {
-                        // leftArmRotation: 0,
-                        // rightArmRotation: 0,
-                        // leftLegStep: 0,
-                        // rightLegStep: 0,
+                        leftArmRotation: 60,
+                        rightArmRotation: 60,
+                        leftLegStep: .6,
+                        rightLegStep: 1,
+                        capeWidth: 2,
+                        capeLength: -1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 305,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: -100,
+                    spriteSpecification: {
+                        leftArmRotation: 60,
+                        rightArmRotation: 60,
+                        leftLegStep: .6,
+                        rightLegStep: 1,
                         capeWidth: 1,
-                        capeLength: 1
+                        capeLength: -1
                     },
                     ease: KeyframeTweener.quadEaseInOut
                 },
@@ -211,85 +262,112 @@
                     sx: .1,
                     sy: .1,
                     tx: 500,
-                    ty: 400,
+                    ty: 0,
                     spriteSpecification: {
-                        // leftArmRotation: 0,
-                        // rightArmRotation: 0,
-                        // leftLegStep: 0,
-                        // rightLegStep: 0,
-                        capeWidth: 3,
-                        capeLength: 1
+                        leftArmRotation: 60,
+                        rightArmRotation: 60,
+                        leftLegStep: .6,
+                        rightLegStep: 1,
+                        capeWidth: 2,
+                        capeLength: -1
                     },
                     ease: KeyframeTweener.quadEaseInOut
                 },
 
                 {
-                    frame: 320,
+                    frame: 315,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 100,
+                    spriteSpecification: {
+                        leftArmRotation: 60,
+                        rightArmRotation: 60,
+                        leftLegStep: .6,
+                        rightLegStep: 1,
+                        capeWidth: 1,
+                        capeLength: -1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 415,
                     sx: .1,
                     sy: .1,
                     tx: 500,
                     ty: 200,
                     spriteSpecification: {
-                        // leftArmRotation: 0,
-                        // rightArmRotation: 0,
-                        // leftLegStep: 0,
-                        // rightLegStep: 0,
+                        leftArmRotation: 60,
+                        rightArmRotation: 60,
+                        leftLegStep: .6,
+                        rightLegStep: 1,
+                        capeWidth: 2,
+                        capeLength: -1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+                {
+                    frame: 420,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 300,
+                    spriteSpecification: {
+                        leftArmRotation: 0,
+                        rightArmRotation: 0,
+                        leftLegStep: 1,
+                        rightLegStep: 1,
+                        capeWidth: 2,
+                        capeLength: 1
+                    },
+                    ease: KeyframeTweener.quadEaseInOut
+                },
+
+
+                {
+                    frame: 435,
+                    sx: .1,
+                    sy: .1,
+                    tx: 500,
+                    ty: 300,
+                    spriteSpecification: {
+                        leftArmRotation: 0,
+                        rightArmRotation: 0,
+                        leftLegStep: 1,
+                        rightLegStep: 1,
                         capeWidth: 1,
                         capeLength: 1
                     },
                     ease: KeyframeTweener.quadEaseInOut
                 },
 
+            ]
+        },
+
+        {
+            draw: transitionBlack,
+            keyframes: [
                 {
-                    frame: 400,
-                    sx: .1,
-                    sy: .1,
-                    tx: 500,
-                    ty: 200,
-                    spriteSpecification: {
-                        // leftArmRotation: 0,
-                        // rightArmRotation: 0,
-                        // leftLegStep: 0,
-                        // rightLegStep: 0,
-                        capeWidth: 3,
-                        capeLength: 1
-                    },
-                    ease: KeyframeTweener.quadEaseInOut
+                    frame: 260,
+                    sx: 5,
+                    sy: 5,
+                    tx: 0,
+                    ty: 1000,
+                    ease: KeyframeTweener.quadEaseIn
                 },
 
+                {
+                    frame: 270,
+                    sx: 5,
+                    sy: 5,
+                    tx: 0,
+                    ty: -4000,
+                    ease: KeyframeTweener.quadEaseIn
+                }               
             ]
-        }  
-
-        // {
-        //     draw: circle,
-        //     keyframes: [
-        //         {
-        //             frame: 50,
-        //             tx: 300,
-        //             ty: 600,
-        //             sx: 0.5,
-        //             sy: 0.5,
-        //             ease: KeyframeTweener.quadEaseOut
-        //         },
-
-        //         {
-        //             frame: 100,
-        //             tx: 300,
-        //             ty: 0,
-        //             sx: 3,
-        //             sy: 0.25,
-        //             ease: KeyframeTweener.quadEaseOut
-        //         },
-
-        //         {
-        //             frame: 150,
-        //             tx: 300,
-        //             ty: 600,
-        //             sx: 0.5,
-        //             sy: 0.5
-        //         }
-        //     ]
-        // },
+        },  
     ];
 
     // Finally, we initialize the engine.  Mainly, it needs

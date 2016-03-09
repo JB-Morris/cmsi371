@@ -15,7 +15,7 @@
     window.SpriteLibrary = window.SpriteLibrary || { };
 
     
-    function LegoPart(src) {
+    function LegoPart (src) {
         this.image = new Image();
         this.image.src = src;
         this.loaded = false;
@@ -25,14 +25,14 @@
         }, false);
     }
 
-    var body = new LegoPart("../components/batman-body-front.png");
-    var rightArm = new LegoPart("../components/batman-right-arm-front.png");
-    var leftArm = new LegoPart("../components/batman-left-arm-front.png");
-    var hip = new LegoPart("../components/batman-hip-front.png");
-    var rightLeg = new LegoPart("../components/batman-right-leg-front.png");
-    var leftLeg = new LegoPart("../components/batman-left-leg-front.png");
-    var head = new LegoPart("../components/batman-front-head.png");
-    var cape = new LegoPart("../components/batman-cape.png");
+    var body = new LegoPart ("../components/batman-body-front.png");
+    var rightArm = new LegoPart ("../components/batman-right-arm-front.png");
+    var leftArm = new LegoPart ("../components/batman-left-arm-front.png");
+    var hip = new LegoPart ("../components/batman-hip-front.png");
+    var rightLeg = new LegoPart ("../components/batman-right-leg-front.png");
+    var leftLeg = new LegoPart ("../components/batman-left-leg-front.png");
+    var head = new LegoPart ("../components/batman-front-head.png");
+    var cape = new LegoPart ("../components/batman-cape.png");
 
 
     var drawLegoBatman = function (ctx, leftArmRotation, rightArmRotation, leftLegStep, rightLegStep, capeWidth, capelength) {

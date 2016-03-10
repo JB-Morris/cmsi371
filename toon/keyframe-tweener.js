@@ -162,6 +162,11 @@
                     (-distance / 2) * ((percentComplete - 1) * (percentComplete - 3) - 1) + start;
         },
 
+        quinticEaseOut: function (currentTime, start, distance, duration) {
+            var percentComplete = currentTime / duration - 1;
+            return distance * ((percentComplete) * percentComplete * percentComplete * percentComplete * percentComplete + 1) + start;
+        },
+
         initialize: initializeAnimation
     };
 }());

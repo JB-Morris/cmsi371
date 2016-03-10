@@ -14,31 +14,33 @@
     window.SpriteLibrary = window.SpriteLibrary || { };
 
     
-    function Building(src) {
+    function FacePart(src) {
         this.image = new Image();
         this.image.src = src;
         this.loaded = false;
         var thisLegoPart = this;
-        this.image.addEventListener ("load", function () {
+        this.image.addEventListener("load", function () {
             thisLegoPart.loaded = true;
         }, false);
     }
 
-    var alleyway = new Building ("../components/alleywayTall.svg");
-
-    var drawAlley = function (ctx) {
- 
+    var bottom = new FacePart("../components/dondiLowerJaw.png");
+    var top = new FacePart("../components/dondiTopHead.png");
+    
+    var drawFace = function (ctx, open, quiver) {
         ctx.save();
-        if (alleyway.loaded) {
-            ctx.drawImage(alleyway.image, 0, 0);
-        }
+        if(top.loaded && bottom.loaded){
+            ctx.save();
+            ctx.drawImage(top.image, Math.sin(quiver), -open);
+            ctx.restore();
+            ctx.drawImage(bottom.image, 0, 0);
+        }        
         ctx.restore();
     }
-    
-    SpriteLibrary.alleyway = function (citySpecification)  {
-        var ctx = citySpecification.ctx;
-        ctx.save();
-        drawAlley(ctx);
-        ctx.restore();
+    SpriteLibrary.dondi = function (faceSpecification)  {
+        var ctx = faceSpecification.ctx;
+        var open = faceSpecification.open || 0;
+        var quiver = faceSpecification.quiver || 5;
+        drawFace(ctx, open, quiver);
     };
 }());

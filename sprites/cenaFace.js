@@ -14,31 +14,30 @@
     window.SpriteLibrary = window.SpriteLibrary || { };
 
     
-    function Building(src) {
+    function cenaHead(src) {
         this.image = new Image();
         this.image.src = src;
         this.loaded = false;
         var thisLegoPart = this;
-        this.image.addEventListener ("load", function () {
+        this.image.addEventListener("load", function () {
             thisLegoPart.loaded = true;
         }, false);
     }
 
-    var alleyway = new Building ("../components/alleywayTall.svg");
-
-    var drawAlley = function (ctx) {
- 
-        ctx.save();
-        if (alleyway.loaded) {
-            ctx.drawImage(alleyway.image, 0, 0);
-        }
-        ctx.restore();
-    }
+    var head = new cenaHead("../components/JC52.png");
     
-    SpriteLibrary.alleyway = function (citySpecification)  {
-        var ctx = citySpecification.ctx;
-        ctx.save();
-        drawAlley(ctx);
-        ctx.restore();
+    var drawHead = function (ctx, spin) {
+        if(head.loaded){
+            ctx.save();
+            ctx.translate(100, 100);
+            ctx.rotate(Math.PI/180 * spin);
+            ctx.drawImage(head.image, -100, -100);
+            ctx.restore();
+        }        
+    }
+    SpriteLibrary.cena = function (headSpecification)  {
+        var ctx = headSpecification.ctx;
+        var spin = headSpecification.spin || 0;
+        drawHead(ctx, spin);
     };
 }());

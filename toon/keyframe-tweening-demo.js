@@ -2,7 +2,9 @@
  * This file demonstrates how our homebrew keyframe-tweening
  * engine is used.
  */
-(function () {
+
+
+document.getElementById("theme").addEventListener("onload", function () {
     var canvas = document.getElementById("canvas");
 
     // First, a selection of "drawing functions" from which we
@@ -66,6 +68,12 @@
         SpriteLibrary.cena({
             ctx: spriteProperties.ctx,
             spin: spriteProperties.spin
+        });
+    };
+
+    var cenaPunch = function (spriteProperties) {
+        SpriteLibrary.cenaPunch({
+            ctx: spriteProperties.ctx,
         });
     };
 
@@ -434,7 +442,7 @@
             keyframes: [
 
                 {
-                    frame: 0,
+                    frame: 445 + 0,
                     sx: 1,
                     sy: 1,
                     tx: 500,
@@ -444,7 +452,7 @@
                     }
                 },
                 {
-                    frame: 50,
+                    frame: 445 + 50,
                     sx: 1,
                     sy: 1,
                     tx: 500,
@@ -462,17 +470,17 @@
             keyframes: [
 
                 {
-                    frame: 10,
+                    frame: 445 + 10,
                     sx: 1,
                     sy: 1,
                     tx: 200,
                     ty: -200,
                     spriteSpecification: {
-                        spin: 0
+                        spin: 445 + 0
                     }
                 },
                 {
-                    frame: 75,
+                    frame: 445 + 75,
                     sx: 1,
                     sy: 1,
                     tx: 200,
@@ -490,7 +498,7 @@
             keyframes: [
 
                 {
-                    frame: 30,
+                    frame: 445 + 30,
                     sx: 1,
                     sy: 1,
                     tx: 900,
@@ -500,7 +508,7 @@
                     }
                 },
                 {
-                    frame: 60,
+                    frame: 445 + 60,
                     sx: 1,
                     sy: 1,
                     tx: 900,
@@ -514,11 +522,129 @@
         },
 
         {
-            draw: dondi,
+            draw: cena,
             keyframes: [
 
                 {
-                    frame: 0,
+                    frame: 445 + 30,
+                    sx: 1,
+                    sy: 1,
+                    tx: 200,
+                    ty: -200,
+                    spriteSpecification: {
+                        spin: 0
+                    }
+                },
+                {
+                    frame: 445 + 60,
+                    sx: 1,
+                    sy: 1,
+                    tx: 200,
+                    ty: 800,
+                    spriteSpecification: {
+                        spin: 1700
+                    } 
+
+                }
+            ]
+        },
+
+        {
+            draw: cena,
+            keyframes: [
+
+                {
+                    frame: 445 + 40,
+                    sx: 1,
+                    sy: 1,
+                    tx: 400,
+                    ty: -200,
+                    spriteSpecification: {
+                        spin: 0
+                    }
+                },
+                {
+                    frame: 445 + 70,
+                    sx: 1,
+                    sy: 1,
+                    tx: 400,
+                    ty: 800,
+                    spriteSpecification: {
+                        spin: 1700
+                    } 
+
+                }
+            ]
+        },
+
+        {
+            draw: cenaPunch,
+            keyframes: [
+                {
+                    frame: 445 - 10,
+                    sx: .2,
+                    sy: .2,
+                    tx: 450,
+                    ty: 700
+                },
+
+                {
+                    frame: 445 - 0,
+                    sx: .2,
+                    sy: .2,
+                    tx: 450,
+                    ty: 600
+                },
+
+                {
+                    frame: 445 + 50,
+                    sx: .2,
+                    sy: .2,
+                    tx: 450,
+                    ty: 600,
+                    ease: KeyframeTweener.quinticEaseOut
+                }, 
+
+                {
+                    frame: 445 + 55,
+                    sx: .4,
+                    sy: .4,
+                    tx: 400,
+                    ty: 425,
+                    ease: KeyframeTweener.quinticEaseOut
+                },
+
+                {
+                    frame: 445 + 100,
+                    sx: .4,
+                    sy: .4,
+                    tx: 400,
+                    ty: 425,
+                    ease: KeyframeTweener.quinticEaseOut
+                },               
+            ]
+        },
+
+        {
+            draw: dondi,
+            keyframes: [
+                
+                {
+                    frame: 445 -10,
+                    sx: 5,
+                    sy: 5,
+                    tx: 200,
+                    ty: 700,
+                    spriteSpecification: {
+                        open: 0,
+                        quiver: 0
+                    },
+                    ease: KeyframeTweener.quinticEaseOut
+                },
+
+
+                {
+                    frame: 445 + 0,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -530,7 +656,7 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
                 {
-                    frame: 10,
+                    frame: 445 + 10,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -543,7 +669,7 @@
                 },
 
                 {
-                    frame: 13,
+                    frame: 445 + 13,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -555,7 +681,7 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
                 {
-                    frame: 15,
+                    frame: 445 + 15,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -567,7 +693,7 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
                 {
-                    frame: 18,
+                    frame: 445 + 18,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -579,7 +705,7 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
                 {
-                    frame: 20,
+                    frame: 445 + 20,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -592,33 +718,7 @@
                 },
 
                 {
-                    frame: 23,
-                    sx: 5,
-                    sy: 5,
-                    tx: 200,
-                    ty: 200,
-                    spriteSpecification: {
-                        open: 20,
-                        quiver: 0
-                    },
-                    ease: KeyframeTweener.quinticEaseOut
-                },
-
-                {
-                    frame: 25,
-                    sx: 5,
-                    sy: 5,
-                    tx: 200,
-                    ty: 200,
-                    spriteSpecification: {
-                        open: 0,
-                        quiver: 0
-                    },
-                    ease: KeyframeTweener.quinticEaseOut
-                },
-
-                {
-                    frame: 27,
+                    frame: 445 + 23,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -631,7 +731,7 @@
                 },
 
                 {
-                    frame: 30,
+                    frame: 445 + 25,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -644,7 +744,33 @@
                 },
 
                 {
-                    frame: 35,
+                    frame: 445 + 27,
+                    sx: 5,
+                    sy: 5,
+                    tx: 200,
+                    ty: 200,
+                    spriteSpecification: {
+                        open: 20,
+                        quiver: 0
+                    },
+                    ease: KeyframeTweener.quinticEaseOut
+                },
+
+                {
+                    frame: 445 + 30,
+                    sx: 5,
+                    sy: 5,
+                    tx: 200,
+                    ty: 200,
+                    spriteSpecification: {
+                        open: 0,
+                        quiver: 0
+                    },
+                    ease: KeyframeTweener.quinticEaseOut
+                },
+
+                {
+                    frame: 445 + 35,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -657,7 +783,7 @@
                 },
 
                 {
-                    frame: 40,
+                    frame: 445 + 40,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -669,7 +795,7 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
                 {
-                    frame: 45,
+                    frame: 445 + 45,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -682,7 +808,7 @@
                 },
 
                 {
-                    frame: 50,
+                    frame: 445 + 50,
                     sx: 5,
                     sy: 5,
                     tx: 200,
@@ -694,20 +820,35 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
                 {
-                    frame: 100,
+                    frame: 445 + 70,
                     sx: 5,
                     sy: 5,
                     tx: 200,
                     ty: 200,
                     spriteSpecification: {
-                        open: 0,
+                        open: 500,
+                        quiver: 0
+                    },
+                    ease: KeyframeTweener.quinticEaseOut
+                },
+
+                {
+                    frame: 445 + 100,
+                    sx: 5,
+                    sy: 5,
+                    tx: 200,
+                    ty: 200,
+                    spriteSpecification: {
+                        open: 500,
                         quiver: 0
                     },
                     ease: KeyframeTweener.quinticEaseOut
                 },
 
             ]
-        }  
+        },
+
+          
     ];
 
     // Finally, we initialize the engine.  Mainly, it needs

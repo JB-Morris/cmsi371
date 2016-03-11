@@ -272,17 +272,65 @@ var Primitives = {
      * permutations of that eighth's coordinates.  So we define a helper
      * function that all of the circle implementations will use...
      */
-    plotCirclePoints: function (context, xc, yc, x, y, color) {
-        color = color || [0, 0, 0];
-        this.setPixel(context, xc + x, yc + y, color[0], color[1], color[2]);
-        this.setPixel(context, xc + x, yc - y, color[0], color[1], color[2]);
-        this.setPixel(context, xc + y, yc + x, color[0], color[1], color[2]);
-        this.setPixel(context, xc + y, yc - x, color[0], color[1], color[2]);
-        this.setPixel(context, xc - x, yc + y, color[0], color[1], color[2]);
-        this.setPixel(context, xc - x, yc - y, color[0], color[1], color[2]);
-        this.setPixel(context, xc - y, yc + x, color[0], color[1], color[2]);
-        this.setPixel(context, xc - y, yc - x, color[0], color[1], color[2]);
-    },
+    plotCirclePoints: function (context, x, y, diameter, c1, c2, c3, c4) {
+
+         var module = this;
+         var i;
+         var j;
+         var leftColor = c1 ? [c1[0], c1[1], c1[2]] : c1;
+         var rightColor = c2 ? [c2[0], c2[1], c2[2]] : c2;
+         var leftVDelta;
+         var rightVDelta;
+         var hDelta;
+         var currentColor;
+
+         var circleCenterX = x + ( diameter / 2);
+         var circleCenterY = y + ( diameter / 2);
+
+         var fillCircleFourColors = function () {
+
+             for (i = y; i < y + d; i += 1) {
+ 
+                 currentColor = [leftColor[0], leftColor[1], leftColor[2]];
+                 hDelta = [(rightColor[0] - leftColor[0]) / diameter,
+                           (rightColor[1] - leftColor[1]) / diameter
+                           (rightColor[2] - leftColor[2]) / diameter];
+
+                 for (j = x; j < x + d; j += 1) {
+
+                     if ( Math.sqrt( ( Math.abs( j - circleCenterX ) * Math.abs( j - circleCenterX ) ) + ( Math.abs( i - circleCenterY ) * Math.abs( i - circleCenterY ) ) )  <  ( diameter / 2 ) ) {
+                     module.setPixel(context, j, i,
+                             currentColor[0],
+                             currentColor[1],
+                             currentColor[2]);
+                     }
+
+                     // Move to the next color horizontally.
+                     currentColor[0] += hDelta[0];
+                     currentColor[1] += hDelta[1];
+                     currentColor[2] += hDelta[2];
+                 }
+
+                 // The color on each side "grades" at different rates.
+                 leftColor[0] += leftVDelta[0];
+                 leftColor[1] += leftVDelta[1];
+                 leftColor[2] += leftVDelta[2];
+                 rightColor[0] += rightVDelta[0];
+                 rightColor[1] += rightVDelta[1];
+                 rightColor[2] += rightVDelta[2];
+             }
+         };
+
+
+                 leftVDelta = [(c3[0] - c1[0]) / diameter,
+                           (c3[1] - c1[1]) / diameter,
+                           (c3[2] - c1[2]) / diameter];
+                 rightVDelta = [(c4[0] - c2[0]) / diameter,
+                           (c4[1] - c2[1]) / diameter,
+                           (c4[2] - c2[2]) / diameter];
+                 fillCircleFourColors();
+             
+     },
 
     // First, the most naive possible implementation: circle by trigonometry.
     circleTrig: function (context, xc, yc, r, color) {

@@ -26,6 +26,10 @@ var NanoshopNeighborhood = {
         ];
     },
 
+    invert: function (x, y, rgbaNeighborhood) {
+        return [255 - r, 255 - g, 255 - b, a];
+    },
+
     /*
      * A basic "averager"---this one returns the average of all the pixels in the
      * given neighborhood.
@@ -63,6 +67,27 @@ var NanoshopNeighborhood = {
 
         return myAverage < neighborAverage ? [ 0, 0, 0, rgbaNeighborhood[4].a ] :
                 [ 255, 255, 255, rgbaNeighborhood[4].a ];
+    },
+
+    sharpen: function (x, y, rgbaNeighborhood) {
+        var neighborTotalR = 0;
+        var neighborTotalG = 0;
+        var neighborTotalB = 0;
+        for (var i = 0; i < 9; i += 1) {
+            if (i !== 4) {
+                neighborTotalR += -rgbaNeighborhood[i].r;
+                neighborTotalR += -rgbaNeighborhood[i].g;
+                neighborTotalR += -rgbaNeighborhood[i].b;
+            }
+        }
+
+        neighborTotalR += rgbaNeighborhood[4].r * 9;
+        neighborTotalG += rgbaNeighborhood[4].g * 9;
+        neighborTotalB += rgbaNeighborhood[4].b * 9;
+
+
+
+        return [neighborTotalR/16, neighborTotalG/16, neighborTotalB/16, rgbaNeighborhood[4].a];
     },
 
     /*

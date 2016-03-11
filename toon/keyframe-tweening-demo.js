@@ -4,7 +4,7 @@
  */
 
 
-document.getElementById("theme").addEventListener("onload", function () {
+(function () {
     var canvas = document.getElementById("canvas");
 
     // First, a selection of "drawing functions" from which we
@@ -75,6 +75,19 @@ document.getElementById("theme").addEventListener("onload", function () {
         SpriteLibrary.cenaPunch({
             ctx: spriteProperties.ctx,
         });
+    };
+
+    var batCenaLogo = function (spriteProperties) {
+        SpriteLobrary.batcenaLogo({
+            ctx: spriteProperties.ctx
+        });
+    };
+
+    var themeSong = new Audio("../components/JCTheme.mp3");
+    // var themeSong = new Audio(document.getElementById("theme"));
+    setTimeout(song, 22177);
+    function song () {
+        themeSong.play();
     };
 
     // Then, we have "easing functions" that determine how

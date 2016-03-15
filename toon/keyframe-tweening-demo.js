@@ -78,7 +78,14 @@
     };
 
     var batCenaLogo = function (spriteProperties) {
-        SpriteLobrary.batcenaLogo({
+        SpriteLibrary.batCenaLogo({
+            ctx: spriteProperties.ctx,
+            scale: spriteProperties.scale
+        });
+    };
+
+    var caption = function (spriteProperties) {
+        SpriteLibrary.caption({
             ctx: spriteProperties.ctx
         });
     };
@@ -257,7 +264,7 @@
                 }, 
 
                 {
-                    frame: 520,
+                    frame: 510,
                     sx: 1.5,
                     sy: 1.5,
                     tx: -500,
@@ -450,6 +457,8 @@
             ]
         },
 
+        
+
         {
             draw: cena,
             keyframes: [
@@ -590,6 +599,8 @@
             ]
         },
 
+        
+
         {
             draw: cenaPunch,
             keyframes: [
@@ -635,6 +646,29 @@
                     ty: 425,
                     ease: KeyframeTweener.quinticEaseOut
                 },               
+            ]
+        },
+
+        {
+            draw: caption,
+            keyframes: [
+                {
+                    frame: 260,
+                    sx:.51,
+                    sy: .5,
+                    tx: 1080,
+                    ty: 450,
+                },
+
+                {
+                    frame: 425,
+                    sx: .5,
+                    sy: .5,
+                    tx: -800,
+                    ty: 450,
+                },
+
+
             ]
         },
 
@@ -845,19 +879,95 @@
                     ease: KeyframeTweener.quinticEaseOut
                 },
 
-                {
-                    frame: 445 + 100,
-                    sx: 5,
-                    sy: 5,
-                    tx: 200,
-                    ty: 200,
+            ]
+        },
+
+        {
+            draw: batCenaLogo,
+            keyframes: [
+                 {
+                    frame: 490,
+                    sx: 1,
+                    sy: 1,
+                    tx: -512,
+                    ty: 394,
                     spriteSpecification: {
-                        open: 500,
-                        quiver: 0
-                    },
-                    ease: KeyframeTweener.quinticEaseOut
+                        scale: .1
+                    }
                 },
 
+                {
+                    frame: 499,
+                    sx: 1,
+                    sy: 1,
+                    tx: -512,
+                    ty: -394,
+                    spriteSpecification: {
+                        scale: .1
+                    }
+                },
+
+
+                 {
+                    frame: 500, //540
+                    sx: 1,
+                    sy: 1,
+                    tx: 512,
+                    ty: 394,
+                    spriteSpecification: {
+                        scale: .1
+                    }
+                },
+
+                {
+                    frame: 510, //550
+                    sx: 1,
+                    sy: 1,
+                    tx: 512,
+                    ty: 394,
+                    spriteSpecification: {
+                        scale: 7
+                    }
+                },
+
+                {
+                    frame: 760, //760
+                    sx: 1,
+                    sy: 1,
+                    tx: 512,
+                    ty: 394,
+                    spriteSpecification: {
+                        scale: .1
+                    }
+                },              
+            ]
+        },
+
+        {
+            draw: cena,
+            keyframes: [
+
+                {
+                    frame: 775,
+                    sx: 1,
+                    sy: 1,
+                    tx: 400,
+                    ty: -200,
+                    spriteSpecification: {
+                        spin: 0
+                    }
+                },
+                {
+                    frame: 815,
+                    sx: 1,
+                    sy: 1,
+                    tx: 400,
+                    ty: 800,
+                    spriteSpecification: {
+                        spin: 1700
+                    } 
+
+                }
             ]
         },
 

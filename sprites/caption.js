@@ -14,7 +14,7 @@
     window.SpriteLibrary = window.SpriteLibrary || { };
 
     
-    function logo(src) {
+    function text (src) {
         this.image = new Image();
         this.image.src = src;
         this.loaded = false;
@@ -24,19 +24,17 @@
         }, false);
     }
 
-    var batCena = new logo("../components/batCena.png");
+    var caption = new text("../components/caption.svg");
     
-    var drawLogo = function (ctx) {
-        if(batCena.loaded){
-            ctx.drawImage(batCena.image, -250, -150);
+    var drawText = function (ctx) {
+        if(caption.loaded){
+            ctx.save();
+            ctx.drawImage(caption.image, 0, 0);
+            ctx.restore();
         }        
     }
-    SpriteLibrary.batCenaLogo = function (logoSpecification)  {
-        var ctx = logoSpecification.ctx;
-        var scale = logoSpecification.scale || 1;
-        ctx.save();
-        ctx.scale(scale, scale);
-        drawLogo(ctx);
-        ctx.restore();
+    SpriteLibrary.caption = function (textSpecification)  {
+        var ctx = textSpecification.ctx;
+        drawText(ctx);
     };
 }());

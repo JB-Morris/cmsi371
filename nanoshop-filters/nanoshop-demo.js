@@ -1,13 +1,14 @@
 /*
- * This demo script uses the NanoshopNeighborhood module to apply a
- * "pixel neighborhood" filter on a canvas drawing.
+ * This demo script uses the Nanoshop module to apply a simple
+ * filter on a canvas drawing.
  */
 (function () {
-    var canvas = $("#picture")[0];
+    var canvas = $("#canvas")[0];
     var renderingContext = canvas.getContext("2d");
 
     // Scene created by Angela Elgar: https://github.com/aelgar
-    renderingContext.save();
+
+
     renderingContext.translate(400, 200);
     Sprites.Wall.draw(renderingContext, { });
     
@@ -59,6 +60,13 @@
     Sprites.Cup.draw(renderingContext, { color: "LemonChiffon" });
 
     renderingContext.resetTransform();
+    renderingContext.save();
+    renderingContext.translate(400, 100);
+    renderingContext.scale(.07, .07);
+    SpriteLibrary.legoBatman({ctx: renderingContext});
+    renderingContext.restore();
+
+    renderingContext.resetTransform();
     renderingContext.translate(570, 360);
     Sprites.Counter.draw(renderingContext);
     
@@ -86,48 +94,46 @@
     renderingContext.translate(-800, -600);
     renderingContext.scale(5, 2.5);
     Sprites.RoomLight.draw(renderingContext, { brightness: 0.4 });
-    renderingContext.restore();
 
-    // Some edge lines to test for wraparound bleeding.
-    renderingContext.strokeStyle = "yellow";
-    renderingContext.beginPath();
-    renderingContext.moveTo(0, 0);
-    renderingContext.lineTo(canvas.width - 1, 0);
-    renderingContext.stroke();
 
-    renderingContext.strokeStyle = "cyan";
-    renderingContext.beginPath();
-    renderingContext.moveTo(0, canvas.height - 1);
-    renderingContext.lineTo(canvas.width - 1, canvas.height - 1);
-    renderingContext.stroke();
 
-    renderingContext.strokeStyle = "green";
-    renderingContext.beginPath();
-    renderingContext.moveTo(0, 0);
-    renderingContext.lineTo(0, canvas.height - 1);
-    renderingContext.stroke();
 
-    renderingContext.strokeStyle = "red";
-    renderingContext.beginPath();
-    renderingContext.moveTo(canvas.width - 1, 0);
-    renderingContext.lineTo(canvas.width - 1, canvas.height / 2);
-    renderingContext.stroke();
+    // 
 
-    renderingContext.strokeStyle = "blue";
-    renderingContext.beginPath();
-    renderingContext.moveTo(canvas.width - 1, canvas.height / 2);
-    renderingContext.lineTo(canvas.width - 1, canvas.height - 1);
-    renderingContext.stroke();
+    // var canvas = document.getElementById("picture");
+      // var ctx = canvas.getContext("2d");
+
+      renderingContext.scale
 
     // Set a little event handler to apply the filter.
     $("#apply-filter-button").click(function () {
         // Filter time.
         renderingContext.putImageData(
-            NanoshopNeighborhood.applyFilter(
-                renderingContext,
+            Nanoshop.applyFilter(
                 renderingContext.getImageData(0, 0, canvas.width, canvas.height),
-                // NanoshopNeighborhood.darkener
-                NanoshopNeighborhood.sharpen // Convenience comment for easy switching.
+                Nanoshop.darkener
+            ),
+            0, 0
+        );
+    });
+
+    $("#grayscale-filter-button").click(function () {
+        // Filter time.
+        renderingContext.putImageData(
+            Nanoshop.applyFilter(
+                renderingContext.getImageData(0, 0, canvas.width, canvas.height),
+                Nanoshop.grayscale
+            ),
+            0, 0
+        );
+    });
+
+    $("#brighten-filter-button").click(function () {
+        // Filter time.
+        renderingContext.putImageData(
+            Nanoshop.applyFilter(
+                renderingContext.getImageData(0, 0, canvas.width, canvas.height),
+                Nanoshop.brighten
             ),
             0, 0
         );

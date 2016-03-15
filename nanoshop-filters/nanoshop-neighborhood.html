@@ -9,16 +9,21 @@
   </head>
   <body>
     <!-- Where the action will happen. -->
-    <canvas id="picture" width="800" height="440">
+    <canvas id="canvas" width="800" height="440">
       All your <code>canvas</code> are belong to us!
     </canvas>
 
     <!-- A little UI to trigger the filter. -->
-    <button id="apply-filter-button">Apply</button>
+    <button id="apply-filter-button">Average</button>
+    <button id="sharpen-filter-button">Sharpen</button>
+    <button id="emboss-filter-button">Emboss</button>
+    <button id="invert-filter-button">Invert</button>
+    <button id="edgeDetect-filter-button">EdgeDetect</button>
 
     <!-- To at least make the above a little easier, we
          at least recruit jQuery's services. -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../sprites/LegoBatman.js"></script>
     <script src="cup.js"></script>
     <script src="wall.js"></script>
     <script src="roomlight.js"></script>

@@ -16,15 +16,10 @@ var Nanoshop = {
     },
 
     brighten: function (x, y, r, g, b, a) {
-        return [ r * 1.3, g * 1.3, b * 1.3];
+        return [ r * 1.3, g * 1.3, b * 1.3, a];
     },
 
     
-
-
-
-
-
     /*
      * Applies the given filter to the given ImageData object,
      * then modifies its pixels according to the given filter.

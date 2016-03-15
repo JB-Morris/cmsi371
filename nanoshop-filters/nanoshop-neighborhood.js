@@ -18,22 +18,17 @@ var NanoshopNeighborhood = {
 
     threshold: function (x, y, rgbaNeighborhood) {
         var x = (rgbaNeighborhood[4].r * 0.2126 + rgbaNeighborhood[4].g * 0.7152 + rgbaNeighborhood[4].b * 0.0722 >= 127) ? 255: 0;
-        return [
-            x,
-            x,
-            x,
-            rgbaNeighborhood[4].a
-        ];
+        return [x, x, x, rgbaNeighborhood[4].a];
     },
 
     invert: function (x, y, rgbaNeighborhood) {
-        return [255 - r, 255 - g, 255 - b, a];
+        return [255 - rgbaNeighborhood[4].r, 255 - rgbaNeighborhood[4].g, 255 - rgbaNeighborhood[4].b, rgbaNeighborhood[4].a];
     },
 
     /*
      * A basic "averager"---this one returns the average of all the pixels in the
      * given neighborhood.
-     */
+     */ 
     averager: function (x, y, rgbaNeighborhood) {
         var rTotal = 0;
         var gTotal = 0;
@@ -75,9 +70,13 @@ var NanoshopNeighborhood = {
         var neighborTotalB = 0;
         for (var i = 0; i < 9; i += 1) {
             if (i !== 4) {
-                neighborTotalR += -rgbaNeighborhood[i].r;
-                neighborTotalR += -rgbaNeighborhood[i].g;
-                neighborTotalR += -rgbaNeighborhood[i].b;
+                neighborTotalR -= rgbaNeighborhood[i].r;
+                neighborTotalG -= rgbaNeighborhood[i].g;
+                neighborTotalB -= rgbaNeighborhood[i].b;
+            } else if (i == 4) {
+                neighborTotalR += 9 * rgbaNeighborhood[i].r;
+                neighborTotalG += 9 *rgbaNeighborhood[i].g;
+                neighborTotalB += 9 * rgbaNeighborhood[i].b;
             }
         }
 
@@ -85,10 +84,18 @@ var NanoshopNeighborhood = {
         neighborTotalG += rgbaNeighborhood[4].g * 9;
         neighborTotalB += rgbaNeighborhood[4].b * 9;
 
-
-
-        return [neighborTotalR/16, neighborTotalG/16, neighborTotalB/16, rgbaNeighborhood[4].a];
+        return [neighborTotalR/9, neighborTotalG/9, neighborTotalB/9, rgbaNeighborhood[4].a];
     },
+
+    emboss: function (x, y, rgbaNeighborhood) {
+        var neighborTotalR = rgbaNeighborhood[0].r * 2 - rgbaNeighborhood[4].r - rgbaNeighborhood[8].r;
+        var neighborTotalG = rgbaNeighborhood[0].g * 2 - rgbaNeighborhood[4].g - rgbaNeighborhood[8].g;
+        var neighborTotalB = rgbaNeighborhood[0].b * 2 - rgbaNeighborhood[4].b - rgbaNeighborhood[8].b;
+
+        return [neighborTotalR/9, neighborTotalG/9, neighborTotalB/9, rgbaNeighborhood[4].a];
+    },
+
+        
 
     /*
      * Applies the given filter to the given ImageData object,

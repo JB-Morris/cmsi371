@@ -90,7 +90,43 @@
 	};
 
 	Shape.sphere = function () {
-        
+        var latitudeLines = 24;
+        var longitudeLines = 24;
+        var radius = .5;
+        var vertices = [];
+        var indices = [];
+
+        for (var currentLatitude = 0; currentLatitude <= latitudeLines; currentLatitude++) {
+            var theta = currentLatitude * Math.PI / latitudeLines;
+            var sinTheta = Math.sin(theta); 
+            var cosTheta = Math.cos(theta);
+
+            for (var currentLongitude = 0; currentLongitude <= longitudeLines; currentLongitude++) {
+                var phi = currentLongitude * 2 * Math.PI / longitudeLines;
+                var sinPhi = Math.sin(phi);
+                var cosPhi = Math.cos(phi);
+
+                var x = cosPhi * sinTheta;
+                var y = cosTheta;
+                var z = sinPhi * sinTheta;
+
+                vertices.push([ radius * x, radius* y, radius * z ]);
+
+                var indexPartOne = (currentLatitude * (longitudeLines + 1)) + currentLongitude;
+                var indexPartTwo = indexPartOne + longitudeLines + 1;
+                
+                indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
+                indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne ]);
+
+            }
+        }
+
+        return {
+            vertices: vertices,
+            indices: indices
+        }
+
+
 
 	}
 
@@ -113,90 +149,9 @@
                 [ 0, 3, 4 ]
             ]
         }
-    }
-
-    Shape.hemisphere = function () {
-        // First determine the radius at the pole.
-        var radius = .5
-
-        var latitudeRadius = radius * Math.cos(Math.PI / 4),
-            vertices = [];
-
-        // Vertices consist of the center, surrounded by select points around
-        // the pole radius.
-        vertices.push([0, radius, 0]);
-
-        // Iterate around the y-axis.
-        var latitudeY = radius * Math.cos(Math.PI / 4);
-        for (var theta = 0; theta < Math.PI * 2; theta += Math.PI / 8) {
-            vertices.push([
-                latitudeRadius * Math.cos(theta),
-                latitudeY,
-                latitudeRadius * Math.sin(theta)
-            ]);
-        }
-
-
-        latitudeRadius = radius * - Math.cos(Math.PI / 4);
-        vertices.push([0, - radius, 0]);
-
-        // Iterate around the y-axis.
-        latitudeY = radius * - Math.cos(Math.PI / 4);
-        for (var theta = 0; theta < Math.PI * 2; theta += Math.PI / 8) {
-            vertices.push([
-                latitudeRadius * Math.cos(theta),
-                latitudeY,
-                latitudeRadius * Math.sin(theta)
-            ]);
-        }
-
-        //Iterate around the equator.
-        latitudeRadius = radius * Math.cos(0);
-        latitudeY = radius * Math.sin(0);
-        for (var theta = 0; theta < Math.PI * 2; theta += Math.PI / 8) {
-            vertices.push([
-                latitudeRadius * Math.cos(theta),
-                latitudeY,
-                latitudeRadius * Math.sin(theta)
-            ]);
-        }
-
-        latitudeRadius = radius * - Math.cos(0);
-        latitudeY = radius * - Math.sin(0);
-        for (var theta = 0; theta < Math.PI * 2; theta += Math.PI / 8) {
-            vertices.push([
-                latitudeRadius * Math.cos(theta),
-                latitudeY,
-                latitudeRadius * Math.sin(theta)
-            ]);
-        }
-
-        // Form the triangles.
-        var indices = [];
-        for (var i = 1; i <= 16; i += 1) {
-            indices.push([ 0, i, (i < 16) ? (i + 1) : 1 ]);
-        }
-
-        for (var i = 18; i <= 33; i += 1) {
-            indices.push([ 17, i, (i < 33) ? (i + 1) : 18 ]);
-        }
-
-        for (var i = 1; i <= 16; i += 1) {
-            indices.push([ i, i + 16 + 17, (i < 16) ? i + 16 + 17 + 1 : 16 + 17 + 1]);
-            indices.push([ i, (i < 16) ? i + 16 + 17 + 1 : i + 17 + 1, (i < 16) ? i + 1 : 1]);
-        }
-
-        for (var i = 18; i <= 33; i += 1) {
-            indices.push([ i + 16 + 16,(i < 33) ? i : 18,(i < 33) ? i + 1 : i + 16 + 1]);
-            indices.push([ i + 16 + 16 , (i < 33) ? i + 1 : i, (i < 33) ? i + 16 + 16 + 1: 18]);
-        }
-
-
-        return {
-            vertices: vertices,
-            indices: indices
-        };
     },
+
+    
 
 	Shape.prototype.toRawTriangleArray = function () {
         var result = [];

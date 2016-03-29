@@ -90,8 +90,30 @@
 	};
 
 	Shape.sphere = function () {
+        
 
-	}	
+	}
+
+    Shape.pyramid = function () {
+        return {
+            vertices: [
+                [ -0.5, -0.5, -0.5 ],
+                [ -0.5, -0.5, 0.5 ],
+                [ 0.5, -0.5, 0.5 ],
+                [ 0.5, -0.5, -0.5 ],
+                [ 0.0, 0.5, 0.0 ]
+            ],
+
+            indices: [
+                [ 0, 1, 2 ],
+                [ 2, 3, 0 ],
+                [ 2, 3, 4 ],
+                [ 1, 2, 4 ],
+                [ 0, 1, 4 ],
+                [ 0, 3, 4 ]
+            ]
+        }
+    }
 
 	Shape.prototype.toRawTriangleArray = function () {
         var result = [];

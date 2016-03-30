@@ -116,7 +116,7 @@
                 var indexPartTwo = indexPartOne + longitudeLines + 1;
                 
                 indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
-                indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne ]);
+                indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
 
             }
         }
@@ -124,11 +124,73 @@
         return {
             vertices: vertices,
             indices: indices
-        }
-
+        };
 
 
 	}
+
+    Shape.cylinder = function () {
+        var latitudeLines = 24;
+        var longitudeLines = 24;
+        var radius = .5;
+        var vertices = [];
+        var indices = [];
+
+        for (var currentLatitude = 0; currentLatitude <= latitudeLines; currentLatitude++) {
+            var theta = currentLatitude * Math.PI / latitudeLines;
+            var sinTheta = Math.sin(theta);
+            var cosTheta = Math.cos(theta);
+
+            var x = sinTheta;
+            var y = cosTheta;
+            var z = sinTheta;
+
+            vertices.push([ radius * x, radius * y, radius * z ]);
+
+            var indexPartOne = (currentLatitude * (longitudeLines + 1) + 0.5);
+            var indexPartTwo = indexPartOne + longitudeLines + 1;
+
+            indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
+            indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
+
+
+        }
+
+        return {
+            vertices: vertices,
+            indices: indices
+        };
+    }
+
+    Shape.cone = function () {
+        indexCount = 50;
+        var radius = 0.5;
+        var coneBase = -0.5
+        var vertices = [
+            [ 0, 0.5, 0 ]
+        ];
+        var indices = [];
+
+        var thetaDelta = 2 * Math.PI / indexCount;
+        var currentTheta = 0.0;
+        for (var i = 0; i < indexCount; i += 1) {
+            vertices.push([
+                radius * Math.cos(currentTheta),
+                coneBase,
+                radius * Math.sin(currentTheta)
+            ]);
+            currentTheta += thetaDelta;
+        }
+
+        for (var i = 0; i < indexCount; i += 1) {
+            indices.push([ 0, (i + 1) % indexCount, (i + 3) % indexCount ]);
+        }
+
+        return {
+            vertices: vertices,
+            indices: indices
+        }
+    }
 
     Shape.pyramid = function () {
         return {

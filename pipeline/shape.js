@@ -167,8 +167,10 @@
         var radius = 0.5;
         var coneBase = -0.5
         var vertices = [
-            [ 0, 0.5, 0 ]
+            [ 0, 0.5, 0 ],
+            // [ 0, -0.5, 0 ]
         ];
+
         var indices = [];
 
         var thetaDelta = 2 * Math.PI / indexCount;
@@ -185,6 +187,10 @@
         for (var i = 0; i < indexCount; i += 1) {
             indices.push([ 0, (i + 1) % indexCount, (i + 3) % indexCount ]);
         }
+        
+        // for (var i = 2; i < indexCount; i += 1) {
+        //     indices.push([1, i + 1, i + 2]);
+        // }
 
         return {
             vertices: vertices,

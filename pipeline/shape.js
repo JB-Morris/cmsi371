@@ -1,8 +1,8 @@
-(function(){
+var Shape = (function () {
 
-	// window.Shape = window.Shape || {};
+	// window.shape = window.shape || {};
 
-	Shape = function (shapeParameters) {
+	shape = function (shapeParameters) {
 		this.x = shapeParameters.x || 0;
 		this.y = shapeParameters.y || 0;
 		this.z = shapeParameters.z || 0;
@@ -12,7 +12,7 @@
 	};
 
 
-	Shape.icosahedron = function () {
+	shape.icosahedron = function () {
 		var X = 0.525731112119133606;
     	var Z = 0.850650808352039932;
 
@@ -59,7 +59,7 @@
 	};
 
 
-	Shape.cube = function () {
+	shape.cube = function () {
 		return {
             vertices: [
                 [ 0.5, 0.5, 0.5 ],
@@ -89,7 +89,7 @@
         };
 	};
 
-	Shape.sphere = function () {
+	shape.sphere = function () {
         var latitudeLines = 24;
         var longitudeLines = 24;
         var radius = .5;
@@ -129,40 +129,40 @@
 
 	}
 
-    Shape.cylinder = function () {
-        var latitudeLines = 24;
-        var longitudeLines = 24;
-        var radius = .5;
-        var vertices = [];
-        var indices = [];
+    // shape.cylinder = function () {
+    //     var latitudeLines = 24;
+    //     var longitudeLines = 24;
+    //     var radius = .5;
+    //     var vertices = [];
+    //     var indices = [];
 
-        for (var currentLatitude = 0; currentLatitude <= latitudeLines; currentLatitude++) {
-            var theta = currentLatitude * Math.PI / latitudeLines;
-            var sinTheta = Math.sin(theta);
-            var cosTheta = Math.cos(theta);
+    //     for (var currentLatitude = 0; currentLatitude <= latitudeLines; currentLatitude++) {
+    //         var theta = currentLatitude * Math.PI / latitudeLines;
+    //         var sinTheta = Math.sin(theta);
+    //         var cosTheta = Math.cos(theta);
 
-            var x = sinTheta;
-            var y = cosTheta;
-            var z = sinTheta;
+    //         var x = sinTheta;
+    //         var y = cosTheta;
+    //         var z = sinTheta;
 
-            vertices.push([ radius * x, radius * y, radius * z ]);
+    //         vertices.push([ radius * x, radius * y, radius * z ]);
 
-            var indexPartOne = (currentLatitude * (longitudeLines + 1) + 0.5);
-            var indexPartTwo = indexPartOne + longitudeLines + 1;
+    //         var indexPartOne = (currentLatitude * (longitudeLines + 1) + 0.5);
+    //         var indexPartTwo = indexPartOne + longitudeLines + 1;
 
-            indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
-            indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
+    //         indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
+    //         indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
 
 
-        }
+    //     }
 
-        return {
-            vertices: vertices,
-            indices: indices
-        };
-    }
+    //     return {
+    //         vertices: vertices,
+    //         indices: indices
+    //     };
+    // }
 
-    Shape.cone = function () {
+    shape.cone = function () {
         indexCount = 50;
         var radius = 0.5;
         var coneBase = -0.5
@@ -198,7 +198,7 @@
         }
     }
 
-    Shape.pyramid = function () {
+    shape.pyramid = function () {
         return {
             vertices: [
                 [ -0.5, -0.5, -0.5 ],
@@ -221,7 +221,7 @@
 
     
 
-	Shape.prototype.toRawTriangleArray = function () {
+	shape.prototype.toRawTriangleArray = function () {
         var result = [];
 
         for (var i = 0, maxi = this.indices.length; i < maxi; i += 1) {
@@ -237,7 +237,7 @@
         return result;
     };
 
-    Shape.prototype.toRawLineArray = function () {
+    shape.prototype.toRawLineArray = function () {
         var result = [];
 
         for (var i = 0, maxi = this.indices.length; i < maxi; i += 1) {
@@ -257,6 +257,7 @@
         return result;
     };
 
+    return shape;
 
 }());
 

@@ -49,6 +49,10 @@
       attribute vec3 vertexColor;
       varying vec4 finalVertexColor;
       uniform mat4 rotationMatrix;
+      uniform mat4 translationMatrix;
+      uniform mat4 scaleMatrix;
+      uniform mat4 orthoProjection;
+      uniform mat4 perspective;
 
       void main(void) {
           gl_Position = rotationMatrix * vec4(vertexPosition, 1.0);

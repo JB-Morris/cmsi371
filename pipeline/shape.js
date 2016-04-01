@@ -9,6 +9,21 @@ var Shape = (function () {
 		this.vertices = shapeParameters.vertices || [];
 		this.indices = shapeParameters.indices || [];
 		this.children = shapeParameters.children || [];
+        this.color = shapeParameters.color || { r: 0.0, g: 0.0, b: 0.0};
+        this.colors = shapeParameters.colors || null;
+        this.mode = shapeParameters.mode || null;
+        this.axis = shapeParameters.axis || {x: 1.0, y: 1.0, z: 1.0};
+        this.angle = shapeParameters.angle || 0;
+        this.translateX = shapeParameters.translateX || 0;
+        this.translateY = shapeParameters.translateY || 0;
+        this.translateZ = shapeParameters.translateZ || 0;
+        this.rotateAngle = shapeParameters.rotateAngle || 0;
+        this.rotateX = shapeParameters.rotateAngleX || 1;
+        this.rotateY = shapeParameters.rotateAngleY || 1;
+        this.rotateZ = shapeParameters.rotateAngleZ || 1;
+        this.scaleX = shapeParameters.scaleX || 1;
+        this.scaleY = shapeParameters.scaleY || 1;
+        this.scaleZ = shapeParameters.scaleZ || 1;
 	};
 
 

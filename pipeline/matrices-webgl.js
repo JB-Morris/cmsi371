@@ -24,11 +24,13 @@
     var currentInterval;
     var modelViewMatrix;
     var projectionMatrix;
+
     var translateMatrix;
     var scaleMatrix;
     var orthoProjection;
     var perspective;
-    // var rotateMatrix;
+    var rotateMatrix;
+
     var vertexPosition;
     var vertexColor;
 
@@ -57,65 +59,65 @@
      * Based on the original glRotate reference:
      *     http://www.opengl.org/sdk/docs/man/xhtml/glRotate.xml
      */
-    var getRotationMatrix = function (angle, x, y, z) {
-        // In production code, this function should be associated
-        // with a matrix object with associated functions.
-        var axisLength = Math.sqrt((x * x) + (y * y) + (z * z));
-        var s = Math.sin(angle * Math.PI / 180.0);
-        var c = Math.cos(angle * Math.PI / 180.0);
-        var oneMinusC = 1.0 - c;
+    // var getRotationMatrix = function (angle, x, y, z) {
+    //     // In production code, this function should be associated
+    //     // with a matrix object with associated functions.
+    //     var axisLength = Math.sqrt((x * x) + (y * y) + (z * z));
+    //     var s = Math.sin(angle * Math.PI / 180.0);
+    //     var c = Math.cos(angle * Math.PI / 180.0);
+    //     var oneMinusC = 1.0 - c;
 
-        // We can't calculate this until we have normalized
-        // the axis vector of rotation.
-        var x2; // "2" for "squared."
-        var y2;
-        var z2;
-        var xy;
-        var yz;
-        var xz;
-        var xs;
-        var ys;
-        var zs;
+    //     // We can't calculate this until we have normalized
+    //     // the axis vector of rotation.
+    //     var x2; // "2" for "squared."
+    //     var y2;
+    //     var z2;
+    //     var xy;
+    //     var yz;
+    //     var xz;
+    //     var xs;
+    //     var ys;
+    //     var zs;
 
-        // Normalize the axis vector of rotation.
-        x /= axisLength;
-        y /= axisLength;
-        z /= axisLength;
+    //     // Normalize the axis vector of rotation.
+    //     x /= axisLength;
+    //     y /= axisLength;
+    //     z /= axisLength;
 
-        // *Now* we can calculate the other terms.
-        x2 = x * x;
-        y2 = y * y;
-        z2 = z * z;
-        xy = x * y;
-        yz = y * z;
-        xz = x * z;
-        xs = x * s;
-        ys = y * s;
-        zs = z * s;
+    //     // *Now* we can calculate the other terms.
+    //     x2 = x * x;
+    //     y2 = y * y;
+    //     z2 = z * z;
+    //     xy = x * y;
+    //     yz = y * z;
+    //     xz = x * z;
+    //     xs = x * s;
+    //     ys = y * s;
+    //     zs = z * s;
 
-        // GL expects its matrices in column major order.
-        return [
-            (x2 * oneMinusC) + c,
-            (xy * oneMinusC) + zs,
-            (xz * oneMinusC) - ys,
-            0.0,
+    //     // GL expects its matrices in column major order.
+    //     return [
+    //         (x2 * oneMinusC) + c,
+    //         (xy * oneMinusC) + zs,
+    //         (xz * oneMinusC) - ys,
+    //         0.0,
 
-            (xy * oneMinusC) - zs,
-            (y2 * oneMinusC) + c,
-            (yz * oneMinusC) + xs,
-            0.0,
+    //         (xy * oneMinusC) - zs,
+    //         (y2 * oneMinusC) + c,
+    //         (yz * oneMinusC) + xs,
+    //         0.0,
 
-            (xz * oneMinusC) + ys,
-            (yz * oneMinusC) - xs,
-            (z2 * oneMinusC) + c,
-            0.0,
+    //         (xz * oneMinusC) + ys,
+    //         (yz * oneMinusC) - xs,
+    //         (z2 * oneMinusC) + c,
+    //         0.0,
 
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ];
-    };
+    //         0.0,
+    //         0.0,
+    //         0.0,
+    //         1.0
+    //     ];
+    // };
 
     /*
      * This is another function that really should reside in a
@@ -123,33 +125,34 @@
      * is part of the student course work, we leave it here for
      * later refactoring and adaptation by students.
      */
-    var getOrthoMatrix = function (left, right, bottom, top, zNear, zFar) {
-        var width = right - left;
-        var height = top - bottom;
-        var depth = zFar - zNear;
 
-        return [
-            2.0 / width,
-            0.0,
-            0.0,
-            0.0,
+    // var getOrthoMatrix = function (left, right, bottom, top, zNear, zFar) {
+    //     var width = right - left;
+    //     var height = top - bottom;
+    //     var depth = zFar - zNear;
 
-            0.0,
-            2.0 / height,
-            0.0,
-            0.0,
+    //     return [
+    //         2.0 / width,
+    //         0.0,
+    //         0.0,
+    //         0.0,
 
-            0.0,
-            0.0,
-            -2.0 / depth,
-            0.0,
+    //         0.0,
+    //         2.0 / height,
+    //         0.0,
+    //         0.0,
 
-            -(right + left) / width,
-            -(top + bottom) / height,
-            -(zFar + zNear) / depth,
-            1.0
-        ];
-    };
+    //         0.0,
+    //         0.0,
+    //         -2.0 / depth,
+    //         0.0,
+
+    //         -(right + left) / width,
+    //         -(top + bottom) / height,
+    //         -(zFar + zNear) / depth,
+    //         1.0
+    //     ];
+    // };
 
     // Grab the WebGL rendering context.
     gl = GLSLUtilities.getGL(canvas);
@@ -177,14 +180,23 @@
             color: { r: 0.0, g: 0.5, b: 0.0 },
             vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
             mode: gl.LINES,
+            scaleX: 0.3,
+            scaleY: 0.3,
+            scaleZ: 0.3,
             children: [new Shape({
                 color: { r: 1.0, g: 0.0, b: 0.0},
                 vertices: new Shape(Shape.sphere()).toRawLineArray(),
                 mode: gl.LINES,
+                scaleX: 0.3,
+                scaleY: 0.3,
+                scaleZ: 0.3,
                 children: [new Shape({
                     color: { r: 1.0, g: 1.0, b: 0.0 },
                     vertices: new Shape(Shape.cone()).toRawTriangleArray(),
                     mode: gl.TRIANGLES,
+                    scaleX: 0.3,
+                    scaleY: 0.3,
+                    scaleZ: 0.3,
                     axis: {
                         x: 1.0,
                         y: 1.0,
@@ -192,7 +204,24 @@
                     }
                 })]
             })]
+        }),
+
+        new Shape({
+            color: { r: 0.5, g: 0.5, b: 0.5},
+            vertices: new Shape(Shape.cube()).toRawLineArray(),
+            mode: gl.LINES,
+            translateX: 3.0,
+            axis: {
+                x: 1.0,
+                y: 1.0,
+                z: 1.0
+            },
+            scaleX: 0.3,
+            scaleY: 0.3,
+            scaleZ: 0.3
         })
+
+
     ];
 
     // Pass the vertices to WebGL.
@@ -218,7 +247,7 @@
             objectsToDraw[i].colorBuffer = GLSLUtilities.initVertexBuffer(gl,
                     objectsToDraw[i].colors);
 
-            if ((objectsToDraw[i].children) && (objectsToDraw[i].children.length > 0)) {
+            if ((objectsToDraw[i].children.length > 0)) {
                 draw(objectsToDraw[i].children);
             }
         }
@@ -265,11 +294,13 @@
     projectionMatrix = gl.getUniformLocation(shaderProgram, "projectionMatrix");
     translateMatrix = gl.getUniformLocation(shaderProgram, "translationMatrix");
     scaleMatrix = gl.getUniformLocation(shaderProgram, "scaleMatrix");
-    // rotateMatrix = gl.getUniformLocation(shaderProgram, "rotateMatrix");
+    rotateMatrix = gl.getUniformLocation(shaderProgram, "rotateMatrix");
     orthoProjection = gl.getUniformLocation(shaderProgram, "orthoProjection");
     perspective = gl.getUniformLocation(shaderProgram, "perspective");
-    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Matrix().perspective(-2, 2, 2, -2, 20, 2000).conversion());
 
+    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Float32Array(new Matrix(new Matrix().perspective(-2, 2, 2, -2, 20, 2000)).conversion()));
+    gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix(new Matrix().scale(1, 1, 1)).conversion()));
+    gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix(new Matrix().translate(0, 0, 0)).conversion()));
 
     /*
      * Displays an individual object, including a transformation that now varies
@@ -283,21 +314,26 @@
         // Set up the model-view matrix, if an axis is included.  If not, we
         // specify the identity matrix.
         gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.axis ?
-                getRotationMatrix(currentRotation, object.axis.x, object.axis.y, object.axis.z) :
-                [1, 0, 0, 0, // N.B. In a full-fledged matrix library, the identity
-                 0, 1, 0, 0, //      matrix should be available as a function.
-                 0, 0, 1, 0,
-                 0, 0, 0, 1]
+                new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z) : new Matrix().data
             ));
 
-        gl.uniformMatrix4fv()
+        var inputMatrix = new Matrix();
+
+        inputMatrix.multiply(new Matrix(new Matrix().scale(object.scaleX, object.scaleY, object.scaleZ)));
+        inputMatrix.multiply(new Matrix(new Matrix().translate(object.translateX, object.translateY, object.translateZ)));
+        inputMatrix.multiply(new Matrix(new Matrix().rotate(object.rotateAngle, object.rotateX, object.rotateY, object.rotateZ)));
+
+        console.log(inputMatrix);
+
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "projectionMatrix"), gl.FALSE, inputMatrix.conversion());
+
 
         // Set the varying vertex coordinates.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.buffer);
         gl.vertexAttribPointer(vertexPosition, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(object.mode, 0, object.vertices.length / 3);
 
-        if ((object.children)  && (object.children.length > 0)) {
+        if ((object.children.length > 0)) {
             for (var i = 0; i < object.children.length; i += 1) {
                 drawObject(object.children[i]);
             }
@@ -310,6 +346,7 @@
     drawScene = function () {
         // Clear the display.
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
 
         // Display the objects.
         for (i = 0, maxi = objectsToDraw.length; i < maxi; i += 1) {
@@ -328,7 +365,9 @@
     // We keep the vertical range fixed, but change the horizontal range
     // according to the aspect ratio of the canvas.  We can also expand
     // the z range now.
-    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Float32Array(getOrthoMatrix(
+
+
+    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Float32Array(new Matrix().orthoProjection(
         -2 * (canvas.width / canvas.height),
         2 * (canvas.width / canvas.height),
         -2,

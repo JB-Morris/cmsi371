@@ -24,7 +24,7 @@ var Matrix = (function () {
 	};
 
 	matrix.prototype.translate = function (x, y, z) {
-		this.data = [
+		return [
 			1, 0, 0, x,
 			0, 1, 0, y,
 			0, 0, 1, z,
@@ -32,7 +32,7 @@ var Matrix = (function () {
 	};
 
 	matrix.prototype.scale = function (x, y, z) {
-		this.data = [
+		 return [
 			x, 0, 0, 0,
 			0, y, 0, 0,
 			0, 0, z, 0,
@@ -68,7 +68,7 @@ var Matrix = (function () {
 			ysin = y * sinAngle;
 			zsin = z * sinAngle;
 
-			this.data = [
+			return [
 					(xSq * resultCos) + cosAngle,
 					(xy * resultCos) - zsin,
 					(xz * resultCos) + ysin,
@@ -97,7 +97,7 @@ var Matrix = (function () {
 			height = above - below,
 			depth = background - foreground;
 
-		this.data = [
+		return [
 				2.0 / width,
 				0.0,
 				0.0,
@@ -120,12 +120,12 @@ var Matrix = (function () {
 			];
 	};
 
-	matrix.prototype.perspective = function (left, right, below, above, foreground, background) {
+	matrix.prototype.perspective = function (left, right, above, below, foreground, background) {
 		var width = right - left,
 			height = above - below,
 			depth = background - foreground;
 
-		this.data = [
+		return [
 			(2.0 * foreground) / width,
 			0.0,
 			(left + right) / width,
@@ -150,7 +150,14 @@ var Matrix = (function () {
 	};
 
 	matrix.prototype.conversion = function () {
-
+		resultMatrix = [];
+		for (var i = 0; i < 4; i += 1) {
+			resultMatrix.push(this.data[i]);
+			resultMatrix.push(this.data[i + 4]);
+			resultMatrix.push(this.data[i + 8]);
+			resultMatrix.push(this.data[i + 12]);
+		};
+		return resultMatrix;
 	};
 
 	return matrix;

@@ -124,17 +124,47 @@
         //     mode: gl.LINE_LOOP
         // },
 
-        {
+        // new Shape({
+        //     color: { r: 0.0, g: 0.5, b: 0.0 },
+        //     vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
+        //     mode: gl.LINES,
+        //     children: [new Shape({
+        //         color: { r: 1.0, g: 0.0, b: 0.0},
+        //         vertices: new Shape(Shape.sphere()).toRawLineArray(),
+        //         mode: gl.LINES,
+        //         children: [new Shape({
+        //             color: { r: 1.0, g: 1.0, b: 0.0 },
+        //             vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+        //             mode: gl.TRIANGLES,
+        //             axis: {
+        //                 x: 1.0,
+        //                 y: 1.0,
+        //                 z: 0.0
+        //             }
+        //         })]
+        //     })]
+        // }),
+
+        new Shape({
             color: { r: 0.0, g: 0.5, b: 0.0 },
             vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
             mode: gl.LINES
-        },
+        })
 
-        {
-            color: { r: 1.0, g: 0.0, b: 0.0},
-            vertices: new Shape(Shape.sphere()).toRawLineArray(),
-            mode: gl.LINES
-        },
+        // new Shape({
+        //             color: { r: 1.0, g: 1.0, b: 0.0 },
+        //             vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+        //             mode: gl.TRIANGLES,
+        //             axis: {
+        //                 x: 1.0,
+        //                 y: 1.0,
+        //                 z: 0.0
+        //             }
+        //         })
+
+
+
+
 
         // {
         //     color: { r: 1.0, g: 0.0, b: 1.0 },
@@ -154,39 +184,37 @@
         //     mode: gl.LINES
         // }
 
-        {
-            color: { r: 1.0, g: 1.0, b: 0.0 },
-            vertices: new Shape(Shape.cone()).toRawTriangleArray(),
-            mode: gl.TRIANGLES,
-            axis: {
-                x: 1.0,
-                y: 1.0,
-                z: 0.0
-            }
-        }
+        
     ];
 
     // Pass the vertices to WebGL.
-    for (var i = 0, maxi = objectsToDraw.length; i < maxi; i += 1) {
-        objectsToDraw[i].buffer = GLSLUtilities.initVertexBuffer(gl,
-                objectsToDraw[i].vertices);
+    var draw = function (objectsToDraw) {
 
-        if (!objectsToDraw[i].colors) {
-            // If we have a single color, we expand that into an array
-            // of the same color over and over.
-            objectsToDraw[i].colors = [];
-            for (var j = 0, maxj = objectsToDraw[i].vertices.length / 3;
-                    j < maxj; j += 1) {
-                objectsToDraw[i].colors = objectsToDraw[i].colors.concat(
-                    objectsToDraw[i].color.r,
-                    objectsToDraw[i].color.g,
-                    objectsToDraw[i].color.b
-                );
+        for (var i = 0, maxi = objectsToDraw.length; i < maxi; i += 1) {
+            objectsToDraw[i].buffer = GLSLUtilities.initVertexBuffer(gl,
+                    objectsToDraw[i].vertices);
+
+            if (!objectsToDraw[i].colors) {
+                // If we have a single color, we expand that into an array
+                // of the same color over and over.
+                objectsToDraw[i].colors = [];
+                for (var j = 0, maxj = objectsToDraw[i].vertices.length / 3;
+                        j < maxj; j += 1) {
+                    objectsToDraw[i].colors = objectsToDraw[i].colors.concat(
+                        objectsToDraw[i].color.r,
+                        objectsToDraw[i].color.g,
+                        objectsToDraw[i].color.b
+                    );
+                }
+            }
+            objectsToDraw[i].colorBuffer = GLSLUtilities.initVertexBuffer(gl,
+                    objectsToDraw[i].colors);
+
+            if ((objectsToDraw[i].children) && (objectsToDraw[i].children.length > 0)) {
+                draw(objectsToDraw[i].children);
             }
         }
-        objectsToDraw[i].colorBuffer = GLSLUtilities.initVertexBuffer(gl,
-                objectsToDraw[i].colors);
-    }
+    }; 
 
     // Initialize the shaders.
     var abort = false;
@@ -237,6 +265,12 @@
         gl.bindBuffer(gl.ARRAY_BUFFER, object.buffer);
         gl.vertexAttribPointer(vertexPosition, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(object.mode, 0, object.vertices.length / 3);
+
+        if ((object.children)  && (object.children.length > 0)) {
+            for (var i = 0; i < object.children.length; i += 1) {
+                drawObject(object.children[i]);
+            }
+        }
     };
 
     /*
@@ -257,6 +291,8 @@
         // All done.
         gl.flush();
     };
+
+    draw(objectsToDraw);
 
     /*
      * Animates the scene.

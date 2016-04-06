@@ -28,7 +28,7 @@
     var translateMatrix;
     var scaleMatrix;
     var orthoProjection;
-    var perspective;
+    var perspectiveMatrix;
     var rotateMatrix;
 
     var vertexPosition;
@@ -177,12 +177,11 @@
         // to the scene (yes, a translation will also do the trick, if it
         // where implemented in this program).
         new Shape({
+            translate: -3,
             color: { r: 0.0, g: 0.5, b: 0.0 },
             vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
             mode: gl.LINES,
-            scaleX: 0.3,
-            scaleY: 0.3,
-            scaleZ: 0.3,
+            scale: {x: 0.3, y: 0.3, z: 0.3},
             children: [new Shape({
                 color: { r: 1.0, g: 0.0, b: 0.0},
                 vertices: new Shape(Shape.sphere()).toRawLineArray(),
@@ -208,19 +207,24 @@
 
         new Shape({
             color: { r: 0.5, g: 0.5, b: 0.5},
-            vertices: new Shape(Shape.cube()).toRawLineArray(),
-            mode: gl.LINES,
-            translateX: 3.0,
+            vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+            mode: gl.TRIANGLES,
+            translate: {
+                x: 3.0,
+                y: 1.0,
+                z: 1.0
+            },
             axis: {
                 x: 1.0,
                 y: 1.0,
                 z: 1.0
             },
-            scaleX: 0.3,
-            scaleY: 0.3,
-            scaleZ: 0.3
+            scale: {
+                x: 1,
+                y: 1,
+                z: 1
+            }
         })
-
 
     ];
 
@@ -228,6 +232,8 @@
     var draw = function (objectsToDraw) {
 
         for (var i = 0, maxi = objectsToDraw.length; i < maxi; i += 1) {
+
+            // console.log(objectsToDraw[i].vertices);
             objectsToDraw[i].buffer = GLSLUtilities.initVertexBuffer(gl,
                     objectsToDraw[i].vertices);
 
@@ -292,15 +298,16 @@
     // model-view and projection, managed separately.
     modelViewMatrix = gl.getUniformLocation(shaderProgram, "modelViewMatrix");
     projectionMatrix = gl.getUniformLocation(shaderProgram, "projectionMatrix");
+    
     translateMatrix = gl.getUniformLocation(shaderProgram, "translationMatrix");
     scaleMatrix = gl.getUniformLocation(shaderProgram, "scaleMatrix");
     rotateMatrix = gl.getUniformLocation(shaderProgram, "rotateMatrix");
     orthoProjection = gl.getUniformLocation(shaderProgram, "orthoProjection");
-    perspective = gl.getUniformLocation(shaderProgram, "perspective");
+    perspectiveMatrix = gl.getUniformLocation(shaderProgram, "perspectiveMatrix");
 
-    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Float32Array(new Matrix(new Matrix().perspective(-2, 2, 2, -2, 20, 2000)).conversion()));
-    gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix(new Matrix().scale(1, 1, 1)).conversion()));
-    gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix(new Matrix().translate(0, 0, 0)).conversion()));
+    gl.uniformMatrix4fv(perspectiveMatrix, gl.FALSE, new Float32Array(new Matrix().perspective(-2, 2, 2, -2, 20, 2000).conversion()));
+    gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
+    gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix().translate(0, 0, 0).conversion()));
 
     /*
      * Displays an individual object, including a transformation that now varies
@@ -311,21 +318,37 @@
         gl.bindBuffer(gl.ARRAY_BUFFER, object.colorBuffer);
         gl.vertexAttribPointer(vertexColor, 3, gl.FLOAT, false, 0, 0);
 
-        // Set up the model-view matrix, if an axis is included.  If not, we
-        // specify the identity matrix.
-        gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.axis ?
-                new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z) : new Matrix().data
-            ));
 
         var inputMatrix = new Matrix();
 
-        inputMatrix.multiply(new Matrix(new Matrix().scale(object.scaleX, object.scaleY, object.scaleZ)));
-        inputMatrix.multiply(new Matrix(new Matrix().translate(object.translateX, object.translateY, object.translateZ)));
-        inputMatrix.multiply(new Matrix(new Matrix().rotate(object.rotateAngle, object.rotateX, object.rotateY, object.rotateZ)));
 
-        console.log(inputMatrix);
+        // inputMatrix.multiply(new Matrix(new Matrix().scale(object.scaleX, object.scaleY, object.scaleZ)));
+        // inputMatrix.multiply(new Matrix(new Matrix().translate(object.translateX, object.translateY, object.translateZ)));
+        // inputMatrix.multiply(new Matrix(new Matrix().rotate(object.rotateAngle, object.rotateX, object.rotateY, object.rotateZ)));
 
-        gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "projectionMatrix"), gl.FALSE, inputMatrix.conversion());
+        gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.translate ?
+            new Matrix().translate(object.translate.x, object.translate.y, object.translate.z).conversion() : new Matrix().conversion()));
+
+        // gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "projectionMatrix"), gl.FALSE, inputMatrix.conversion());
+
+        inputMatrix = multiplyMatricies(object, inputMatrix);
+
+        for (var i = 0; i < object.children.length; i++) {
+            var childMatrix = new Matrix();
+            childMatrix = multiplyMatricies(object.children[i], childMatrix);
+        }
+
+        // Set up the model-view matrix, if an axis is included.  If not, we
+        // specify the identity matrix.
+
+        gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.axis ?
+                new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z).conversion() : new Matrix().conversion()
+            ));
+        // gl.uniformMatrix4fv(perspectiveMatrix, gl.FALSE, new Float32Array(new Matrix().perspective(-2, 2, 2, -2, 20, 2000).conversion()));
+        // gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
+        
+
+        
 
 
         // Set the varying vertex coordinates.
@@ -339,6 +362,18 @@
             }
         }
     };
+
+    multiplyMatricies = function (object, matrix) {
+
+        matrix.data = matrix.multiply(new Matrix().scale(object.scale.x, object.scale.y, object.scale.z));
+        matrix.data = matrix.multiply(new Matrix().translate(object.translate.x, object.translate.y, object.translate.z));
+        matrix.data = matrix.multiply(new Matrix().rotate(object.rotateAngle, object.rotate.x, object.rotate.y, object.rotate.z));
+
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "modelViewMatrix"), gl.FALSE, matrix.conversion());
+
+        return matrix;
+
+    }
 
     /*
      * Displays the scene.
@@ -374,7 +409,7 @@
         2,
         -10,
         10
-    )));
+    ).conversion()));
 
     // Animation initialization/support.
     previousTimestamp = null;

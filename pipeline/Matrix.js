@@ -20,23 +20,23 @@ var Matrix = (function () {
 				);
 			};
 		};
-		this.data = resultMatrix;
+		return new Matrix(resultMatrix);
 	};
 
 	matrix.prototype.translate = function (x, y, z) {
-		return [
+		return new Matrix([
 			1, 0, 0, x,
 			0, 1, 0, y,
 			0, 0, 1, z,
-			0, 0, 0, 1];
+			0, 0, 0, 1]);
 	};
 
 	matrix.prototype.scale = function (x, y, z) {
-		 return [
+		 return new Matrix([
 			x, 0, 0, 0,
 			0, y, 0, 0,
 			0, 0, z, 0,
-			0, 0, 0, 1];
+			0, 0, 0, 1]);
 	};
 
 	matrix.prototype.rotate = function (angle, x, y, z) {
@@ -68,7 +68,7 @@ var Matrix = (function () {
 			ysin = y * sinAngle;
 			zsin = z * sinAngle;
 
-			return [
+			return new Matrix([
 					(xSq * resultCos) + cosAngle,
 					(xy * resultCos) - zsin,
 					(xz * resultCos) + ysin,
@@ -88,7 +88,7 @@ var Matrix = (function () {
 					0.0,
 					0.0,
 					1.0
-				];
+				]);
 
 	};
 
@@ -97,7 +97,7 @@ var Matrix = (function () {
 			height = above - below,
 			depth = background - foreground;
 
-		return [
+		return new Matrix([
 				2.0 / width,
 				0.0,
 				0.0,
@@ -117,7 +117,7 @@ var Matrix = (function () {
 				0.0,
 				0.0,
 				1.0
-			];
+			]);
 	};
 
 	matrix.prototype.perspective = function (left, right, above, below, foreground, background) {
@@ -125,7 +125,7 @@ var Matrix = (function () {
 			height = above - below,
 			depth = background - foreground;
 
-		return [
+		return new Matrix([
 			(2.0 * foreground) / width,
 			0.0,
 			(left + right) / width,
@@ -145,7 +145,7 @@ var Matrix = (function () {
 			0.0,
 			-1.0,
 			0.0
-		];
+		]);
 
 	};
 

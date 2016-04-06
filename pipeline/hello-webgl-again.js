@@ -124,43 +124,28 @@
         //     mode: gl.LINE_LOOP
         // },
 
-        // new Shape({
-        //     color: { r: 0.0, g: 0.5, b: 0.0 },
-        //     vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
-        //     mode: gl.LINES,
-        //     children: [new Shape({
-        //         color: { r: 1.0, g: 0.0, b: 0.0},
-        //         vertices: new Shape(Shape.sphere()).toRawLineArray(),
-        //         mode: gl.LINES,
-        //         children: [new Shape({
-        //             color: { r: 1.0, g: 1.0, b: 0.0 },
-        //             vertices: new Shape(Shape.cone()).toRawTriangleArray(),
-        //             mode: gl.TRIANGLES,
-        //             axis: {
-        //                 x: 1.0,
-        //                 y: 1.0,
-        //                 z: 0.0
-        //             }
-        //         })]
-        //     })]
-        // }),
-
         new Shape({
             color: { r: 0.0, g: 0.5, b: 0.0 },
             vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
-            mode: gl.LINES
-        })
+            mode: gl.LINES,
+            children: [new Shape({
+                color: { r: 1.0, g: 0.0, b: 0.0},
+                vertices: new Shape(Shape.sphere()).toRawTriangleArray(),
+                mode: gl.TRIANGLES,
+                children: [new Shape({
+                    color: { r: 1.0, g: 1.0, b: 0.0 },
+                    vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+                    mode: gl.TRIANGLES,
+                    axis: {
+                        x: 1.0,
+                        y: 1.0,
+                        z: 0.0
+                    }
+                })]
+            })]
+        }),
 
-        // new Shape({
-        //             color: { r: 1.0, g: 1.0, b: 0.0 },
-        //             vertices: new Shape(Shape.cone()).toRawTriangleArray(),
-        //             mode: gl.TRIANGLES,
-        //             axis: {
-        //                 x: 1.0,
-        //                 y: 1.0,
-        //                 z: 0.0
-        //             }
-        //         })
+        
 
 
 

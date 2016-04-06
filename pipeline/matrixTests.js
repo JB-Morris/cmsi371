@@ -26,7 +26,7 @@ $(function () {
              1, 1, 1, 1]
         );
 
-        m2.multiply(matrixToMultiply);
+        m2 = m2.multiply(matrixToMultiply);
 
         deepEqual(m2.data,
             [0, 0, 0, 0,
@@ -49,7 +49,7 @@ $(function () {
              1, 1, 1, 1]
         );
 
-        m2.multiply(matrixToMultiply);
+        m2 = m2.multiply(matrixToMultiply);
 
         deepEqual(m2.data,
             [4, 4, 4, 4,
@@ -72,7 +72,7 @@ $(function () {
              3.2, 444444, 0, 7]
         );
 
-        m2.multiply(matrixToMultiply);
+        m2 = m2.multiply(matrixToMultiply);
 
         deepEqual(m2.data,
             [0, 1, 2, 3,
@@ -84,7 +84,7 @@ $(function () {
 
     test("Translate, Scale, Rotate.", function () {
         var m3 = new Matrix();
-        deepEqual(m3.translate(7, 10, -4),
+        deepEqual(m3.translate(7, 10, -4).data,
             [1, 0, 0, 7,
              0, 1, 0, 10,
              0, 0, 1, -4,
@@ -92,7 +92,7 @@ $(function () {
             "Translate by basic positive and negative integers.");
 
         m3 = new Matrix();
-        deepEqual(m3.translate(-3.14, -72.6, 123.456),
+        deepEqual(m3.translate(-3.14, -72.6, 123.456).data,
             [1, 0, 0, -3.14,
              0, 1, 0, -72.6,
              0, 0, 1, 123.456,
@@ -100,7 +100,7 @@ $(function () {
             "Translate by positive and negative floating point numbers.");
 
         m3 = new Matrix();
-        deepEqual(m3.translate(0, 0, 0),
+        deepEqual(m3.translate(0, 0, 0).data,
             [1, 0, 0, 0,
              0, 1, 0, 0,
              0, 0, 1, 0,
@@ -108,7 +108,7 @@ $(function () {
             "Translate by 0, 0, 0.");
 
         m3 = new Matrix();
-        deepEqual(m3.scale(3, 7, 42),
+        deepEqual(m3.scale(3, 7, 42).data,
             [3, 0, 0, 0,
              0, 7, 0, 0,
              0, 0, 42, 0,
@@ -116,7 +116,7 @@ $(function () {
             "Scale by positive integers.");
 
         m3 = new Matrix();
-        deepEqual(m3.scale(0, 0, 0),
+        deepEqual(m3.scale(0, 0, 0).data,
             [0, 0, 0, 0,
              0, 0, 0, 0,
              0, 0, 0, 0,
@@ -124,7 +124,7 @@ $(function () {
             "Scale by 0.");
 
         m3 = new Matrix();
-        deepEqual(m3.scale(-90, -1, 314285),
+        deepEqual(m3.scale(-90, -1, 314285).data,
             [-90, 0, 0, 0,
              0, -1, 0, 0,
              0, 0, 314285, 0,
@@ -132,7 +132,7 @@ $(function () {
             "Scale by positive and negative integers.");
 
         m3 = new Matrix();
-        deepEqual(m3.scale(-3.2, 2.5, -8.9),
+        deepEqual(m3.scale(-3.2, 2.5, -8.9).data,
             [-3.2, 0, 0, 0,
              0, 2.5, 0, 0,
              0, 0, -8.9, 0,
@@ -140,7 +140,7 @@ $(function () {
             "Scale by positive and negative floats.");
 
         m3 = new Matrix();
-        deepEqual(m3.rotate(0, 0, 0, 1),
+        deepEqual(m3.rotate(0, 0, 0, 1).data,
             [1, 0, 0, 0,
              0, 1, 0, 0,
              0, 0, 1, 0,
@@ -148,7 +148,7 @@ $(function () {
             "Rotate by 0, 0, 0, 1.");
 
         m3 = new Matrix();
-        deepEqual(m3.rotate(1, 0, 1, 0),
+        deepEqual(m3.rotate(1, 0, 1, 0).data,
             [Math.cos(Math.PI / 180.0), 0, Math.sin(Math.PI / 180.0), 0,
              0, 1, 0, 0,
              (-1 * Math.sin(Math.PI / 180.0)), 0, Math.cos(Math.PI / 180.0), 0,
@@ -162,7 +162,7 @@ $(function () {
             z = 1 / axisLength,
             cosine = Math.cos(270 * Math.PI / 180.0),
             sine = Math.sin(270 * Math.PI / 180.0);
-        deepEqual(m3.rotate(270, 1, 1, 1),
+        deepEqual(m3.rotate(270, 1, 1, 1).data,
             [(x * x * (1 - cosine) + cosine), (x * y * (1 - cosine) - z * sine), (x * z * (1 - cosine) + y * sine), 0,
              (x * y * (1 - cosine) + z * sine), (y * y * (1 - cosine) + cosine), (y * z * (1 - cosine) - x * sine), 0,
              (x * z * (1 - cosine) - y * sine), (y * z * (1 - cosine) + x * sine), (z * z * (1 - cosine) + cosine), 0,
@@ -175,7 +175,7 @@ $(function () {
         z = 1;
         cosine = Math.cos(8.7 * Math.PI / 180.0);
         sine = Math.sin(8.7 * Math.PI / 180.0);
-        deepEqual(m3.rotate(8.7, 0, 0, 1),
+        deepEqual(m3.rotate(8.7, 0, 0, 1).data,
             [cosine, (-1 * z * sine), 0, 0,
              (z * sine), cosine, 0, 0,
              0, 0, 1, 0,
@@ -188,7 +188,7 @@ $(function () {
         width = 1 + 1;
         height = 1 + 1;
         depth = 1 + 1;
-        deepEqual(m4.orthoProjection(-1, 1, -1, 1, -1, 1),
+        deepEqual(m4.orthoProjection(-1, 1, -1, 1, -1, 1).data,
             [1, 0, 0, 0,
              0, 1, 0, 0,
              0, 0, -1, 0,
@@ -199,7 +199,7 @@ $(function () {
         width = 2;
         height = 2;
         depth = 2;
-        deepEqual(m4.orthoProjection(0, 2, 0, 2, 0, 2),
+        deepEqual(m4.orthoProjection(0, 2, 0, 2, 0, 2).data,
             [1, 0, 0, -1,
              0, 1, 0, -1,
              0, 0, -1, -1,
@@ -210,7 +210,7 @@ $(function () {
             width = 8 + 8;
             height = 6 + 6;
             depth = 12 + 12;
-        deepEqual(m4.orthoProjection(-8, 8, -6, 6, -12, 12),
+        deepEqual(m4.orthoProjection(-8, 8, -6, 6, -12, 12).data,
             [2 / width, 0, 0, 0,
              0, 2 / height, 0, 0,
              0, 0, -2 / depth, 0,
@@ -221,7 +221,7 @@ $(function () {
         width = 1 + 1;
         height = 1 + 1;
         depth = 1 + 1;
-        deepEqual(m4.perspective(-1, 1, 1, -1, -1, 1),
+        deepEqual(m4.perspective(-1, 1, 1, -1, -1, 1).data,
             [-1, 0, 0, 0,
              0, -1, 0, 0,
              0, 0, 0, 1,
@@ -232,7 +232,7 @@ $(function () {
         width = 1;
         height = 1;
         depth = 1;
-        deepEqual(m4.perspective(0, 1, 1, 0, 0, 1),
+        deepEqual(m4.perspective(0, 1, 1, 0, 0, 1).data,
             [0, 0, 1, 0,
              0, 0, 1, 0,
              0, 0, -1, 0,
@@ -243,7 +243,7 @@ $(function () {
         width = 8 + 8;
         height = 6 + 6;
         depth = 12 + 12;
-        deepEqual(m4.perspective(-8, 8, 6, -6, -12, 12),
+        deepEqual(m4.perspective(-8, 8, 6, -6, -12, 12).data,
 
             [2 * -12 / width, 0, 0, 0,
              0, -2, 0, 0,

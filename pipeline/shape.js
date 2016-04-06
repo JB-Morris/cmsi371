@@ -14,16 +14,19 @@ var Shape = (function () {
         this.mode = shapeParameters.mode || null;
         this.axis = shapeParameters.axis || {x: 1.0, y: 1.0, z: 1.0};
         this.angle = shapeParameters.angle || 0;
-        this.translateX = shapeParameters.translateX || 0;
-        this.translateY = shapeParameters.translateY || 0;
-        this.translateZ = shapeParameters.translateZ || 0;
+        // this.translateX = shapeParameters.translateX || 0;
+        // this.translateY = shapeParameters.translateY || 0;
+        // this.translateZ = shapeParameters.translateZ || 0;
+        this.translate = shapeParameters.translate || {x: 0, y: 0, z: 0};
         this.rotateAngle = shapeParameters.rotateAngle || 0;
-        this.rotateX = shapeParameters.rotateAngleX || 1;
-        this.rotateY = shapeParameters.rotateAngleY || 1;
-        this.rotateZ = shapeParameters.rotateAngleZ || 1;
-        this.scaleX = shapeParameters.scaleX || 1;
-        this.scaleY = shapeParameters.scaleY || 1;
-        this.scaleZ = shapeParameters.scaleZ || 1;
+        // this.rotateX = shapeParameters.rotateAngleX || 1;
+        // this.rotateY = shapeParameters.rotateAngleY || 1;
+        // this.rotateZ = shapeParameters.rotateAngleZ || 1;
+        this.rotate = shapeParameters.rotate || {x: 1, y: 1, z: 1};
+        // this.scaleX = shapeParameters.scaleX || 1;
+        // this.scaleY = shapeParameters.scaleY || 1;
+        // this.scaleZ = shapeParameters.scaleZ || 1;
+        this.scale = shapeParameters.scale || {x: 1, y: 1, z: 1};
 	};
 
 

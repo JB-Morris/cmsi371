@@ -192,6 +192,7 @@
                 mode: gl.LINES,
                 translate: {x: 1, y: 0, z: 0},
                 children: [new Shape({
+                    translate: {x: 0, y: 1, z: 0},
                     color: { r: 1.0, g: 1.0, b: 0.0 },
                     vertices: new Shape(Shape.cone()).toRawTriangleArray(),
                     mode: gl.TRIANGLES,
@@ -315,7 +316,7 @@
      * Displays an individual object, including a transformation that now varies
      * for each object drawn.
      */
-    drawObject = function (object) {
+    drawObject = function (object, parentMatrix) {
         // Set the varying colors.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.colorBuffer);
         gl.vertexAttribPointer(vertexColor, 3, gl.FLOAT, false, 0, 0);
@@ -345,11 +346,14 @@
         //         new Matrix().scale(object.scale.x, object.scale.y, object.scale.z)).conversion() : new Matrix().conversion()));
 
 
-        multiplyMatricies(object);
-
-        for (i = 0; i < object.children.length; i += 1) {
-            multiplyMatricies(object.children[i]);
+        var myMatrix = multiplyMatricies(object);
+        if (parentMatrix) {
+            myMatrix = myMatrix.multiply(parentMatrix);
         }
+
+//        for (i = 0; i < object.children.length; i += 1) {
+//            multiplyMatricies(object.children[i]);
+//        }
 
 
         // gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.axis ?
@@ -363,6 +367,8 @@
 
         // console.log(object);
 
+        gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(myMatrix.conversion()));
+
         // Set the varying vertex coordinates.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.buffer);
         gl.vertexAttribPointer(vertexPosition, 3, gl.FLOAT, false, 0, 0);
@@ -370,7 +376,7 @@
 
         if ((object.children.length > 0)) {
             for (var i = 0; i < object.children.length; i += 1) {
-                drawObject(object.children[i]);
+                drawObject(object.children[i], myMatrix);
             }
         }
     };
@@ -390,10 +396,10 @@
     // }
 
     multiplyMatricies = function (object) {
-        gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.translate ?
+        return object.translate ?
             new Matrix().translate(object.translate.x, object.translate.y, object.translate.z).multiply(
             new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z)).multiply(
-            new Matrix().scale(object.scale.x, object.scale.y, object.scale.z)).conversion() : new Matrix().conversion()));
+            new Matrix().scale(object.scale.x, object.scale.y, object.scale.z)) : new Matrix();
     };
 
 

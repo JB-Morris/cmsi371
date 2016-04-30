@@ -177,33 +177,34 @@
         // to the scene (yes, a translation will also do the trick, if it
         // where implemented in this program).
         new Shape({
-            translate: {
-                x: -1,
-                y: 0,
-                z: 0
-            },
+            translate: {x: -1, y: 0, z: 0},
+            axis: {x: 1.0, y: 1.0, z: 1.0},
             color: { r: 0.0, g: 0.5, b: 0.0 },
             vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
             mode: gl.LINES,
-            scale: {x: 0.3, y: 0.3, z: 0.3},
+            scale: {x: 0.7, y: 0.7, z: 0.7},
             children: [new Shape({
+                translate: {x: 1, y: 0, z: 0},
+                axis: {x: 1.0, y: 1.0, z: 1.0},
+                rotateAngle: 0,
                 color: { r: 1.0, g: 0.0, b: 0.0},
                 vertices: new Shape(Shape.sphere()).toRawLineArray(),
                 mode: gl.LINES,
-                translate: {x: 1, y: 0, z: 0},
                 children: [new Shape({
-                    translate: {x: 0, y: 1, z: 0},
+                    translate: {x: 1, y: 0, z: 0},
+                    axis: {x: 1.0, y: 1.0, z: 1.0},
+                    rotateAngle: 0,
                     color: { r: 1.0, g: 1.0, b: 0.0 },
-                    vertices: new Shape(Shape.cone()).toRawTriangleArray(),
-                    mode: gl.TRIANGLES,
-                    scaleX: 0.3,
-                    scaleY: 0.3,
-                    scaleZ: 0.3,
-                    axis: {
-                        x: 1.0,
-                        y: 1.0,
-                        z: 0.0
-                    }
+                    vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
+                    mode: gl.LINES,
+                    children: [new Shape({
+                        translate: {x: 1, y: 0, z: 0},
+                        axis: {x: 1.0, y: 1.0, z: 1.0},
+                        rotateAngle: 0,
+                        color: { r: 1.0, g: 0.0, b: 1.0 },
+                        vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+                        mode: gl.TRIANGLES,
+                    })]
                 })]
             })]
         }),
@@ -212,21 +213,11 @@
             color: { r: 0.5, g: 0.5, b: 0.5},
             vertices: new Shape(Shape.cube()).toRawTriangleArray(),
             mode: gl.TRIANGLES,
-            translate: {
-                x: 3.0,
-                y: 1.0,
-                z: 1.0
-            },
-            axis: {
-                x: 1.0,
-                y: 1.0,
-                z: 1.0
-            },
-            scale: {
-                x: 1,
-                y: 1,
-                z: 1
-            }
+            translate: {x: 3.0, y: 1.0, z: 1.0},
+            axis: {x: 1.0, y: 1.0,z: 1.0},
+            rotateAngle: 45,
+            scale: {x: 1, y: 1, z: 1}
+
         })
 
     ];
@@ -305,6 +296,7 @@
     translateMatrix = gl.getUniformLocation(shaderProgram, "translationMatrix");
     scaleMatrix = gl.getUniformLocation(shaderProgram, "scaleMatrix");
     rotateMatrix = gl.getUniformLocation(shaderProgram, "rotateMatrix");
+
     orthoProjection = gl.getUniformLocation(shaderProgram, "orthoProjection");
     perspectiveMatrix = gl.getUniformLocation(shaderProgram, "perspectiveMatrix");
 
@@ -347,8 +339,11 @@
 
 
         var myMatrix = multiplyMatricies(object);
+        
         if (parentMatrix) {
-            myMatrix = myMatrix.multiply(parentMatrix);
+            myMatrix = parentMatrix.multiply(myMatrix);
+        }else {
+            object.rotateAngle = currentRotation;
         }
 
 //        for (i = 0; i < object.children.length; i += 1) {
@@ -396,10 +391,9 @@
     // }
 
     multiplyMatricies = function (object) {
-        return object.translate ?
-            new Matrix().translate(object.translate.x, object.translate.y, object.translate.z).multiply(
-            new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z)).multiply(
-            new Matrix().scale(object.scale.x, object.scale.y, object.scale.z)) : new Matrix();
+        return new Matrix().translate(object.translate.x, object.translate.y, object.translate.z).multiply(
+            new Matrix().rotate(object.rotateAngle, object.axis.x, object.axis.y, object.axis.z)).multiply(
+            new Matrix().scale(object.scale.x, object.scale.y, object.scale.z)) || new Matrix();
     };
 
 
@@ -467,7 +461,7 @@
         }
 
         // All clear.
-        currentRotation += 0.033 * progress;
+        currentRotation += 0.033 * progress;        
         drawScene();
         if (currentRotation >= 360.0) {
             currentRotation -= 360.0;

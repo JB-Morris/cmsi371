@@ -13,19 +13,9 @@ var Shape = (function () {
         this.colors = shapeParameters.colors || null;
         this.mode = shapeParameters.mode || null;
         this.axis = shapeParameters.axis || {x: 1.0, y: 1.0, z: 1.0};
-        this.angle = shapeParameters.angle || 0;
-        // this.translateX = shapeParameters.translateX || 0;
-        // this.translateY = shapeParameters.translateY || 0;
-        // this.translateZ = shapeParameters.translateZ || 0;
+        this.angle = shapeParameters.angle || 0;;
         this.translate = shapeParameters.translate || {x: 0, y: 0, z: 0};
         this.rotateAngle = shapeParameters.rotateAngle || 0;
-        // this.rotateX = shapeParameters.rotateAngleX || 1;
-        // this.rotateY = shapeParameters.rotateAngleY || 1;
-        // this.rotateZ = shapeParameters.rotateAngleZ || 1;
-        this.rotate = shapeParameters.rotate || {x: 1, y: 1, z: 1};
-        // this.scaleX = shapeParameters.scaleX || 1;
-        // this.scaleY = shapeParameters.scaleY || 1;
-        // this.scaleZ = shapeParameters.scaleZ || 1;
         this.scale = shapeParameters.scale || {x: 1, y: 1, z: 1};
 	};
 
@@ -180,9 +170,9 @@ var Shape = (function () {
     //     };
     // }
 
-    shape.cone = function () {
+    shape.cone = function (r) {
         indexCount = 50;
-        var radius = 0.5;
+        var radius = r || 0.5;
         var coneBase = -0.5
         var vertices = [
             [ 0, 0.5, 0 ],
@@ -193,7 +183,7 @@ var Shape = (function () {
 
         var thetaDelta = 2 * Math.PI / indexCount;
         var currentTheta = 0.0;
-        for (var i = 0; i < indexCount; i += 1) {
+        for (var i = 0; i < indexCount + 1; i += 1) {
             vertices.push([
                 radius * Math.cos(currentTheta),
                 coneBase,
@@ -202,7 +192,7 @@ var Shape = (function () {
             currentTheta += thetaDelta;
         }
 
-        for (var i = 0; i < indexCount; i += 1) {
+        for (var i = 0; i < indexCount  + 1; i += 1) {
             indices.push([ 0, (i + 1) % indexCount, (i + 3) % indexCount ]);
         }
         

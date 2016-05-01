@@ -17,6 +17,10 @@ var Shape = (function () {
         this.translate = shapeParameters.translate || {x: 0, y: 0, z: 0};
         this.rotateAngle = shapeParameters.rotateAngle || 0;
         this.scale = shapeParameters.scale || {x: 1, y: 1, z: 1};
+        this.normals = shapeParameters.normals || [];
+        this.specularColors = shapeParameters.specularColors || null;
+        this.shininess = shapeParameters.shininess || 16;
+        this.specularColor = shapeParameters.specularColor || { r: 1.0, g: 1.0, b: 1.0};
 	};
 
 
@@ -63,7 +67,6 @@ var Shape = (function () {
                 [ 11, 2, 7 ]
             ]
         };
-
 	};
 
 
@@ -118,13 +121,18 @@ var Shape = (function () {
                 var y = cosTheta;
                 var z = sinPhi * sinTheta;
 
-                vertices.push([ radius * x, radius* y, radius * z ]);
+                vertices.push([ radius * x, radius * y, radius * z ]);
 
                 var indexPartOne = (currentLatitude * (longitudeLines + 1)) + currentLongitude;
                 var indexPartTwo = indexPartOne + longitudeLines + 1;
                 
-                indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
-                indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
+                if (currentLatitude != latitudeLines && currentLongitude != longitudeLines){
+                    indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
+                    indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
+
+                }
+
+                
 
             }
         }
@@ -254,10 +262,61 @@ var Shape = (function () {
                     this.vertices[
                         this.indices[i][j]
                     ],
-
                     this.vertices[
                         this.indices[i][(j + 1) % maxj]
                     ]
+                );
+            }
+        }
+
+        return result;
+    };
+
+    shape.prototype.toNormalArray = function () {
+        var result = [];
+        // console.log(this.indices);
+        // console.log(this.vertices);
+
+        // For each face...
+        for (var i = 0, maxi = this.indices.length; i < maxi; i += 1) {
+            // We form vectors from the first and second then second and third vertices.
+
+            // console.log(i);
+
+            var p0 = this.vertices[this.indices[i][0]];
+            var p1 = this.vertices[this.indices[i][1]];
+            var p2 = this.vertices[this.indices[i][2]];
+
+            // Technically, the first value is not a vector, but v can stand for vertex
+            // anyway, so...
+            // console.log(p1);
+            var v0 = new Vector(p0[0], p0[1], p0[2]);
+            var v1 = new Vector(p1[0], p1[1], p1[2]).subtract(v0);
+            var v2 = new Vector(p2[0], p2[1], p2[2]).subtract(v0);
+            var normal = v1.cross(v2).unit();
+
+            // We then use this same normal for every vertex in this face.
+            for (var j = 0, maxj = this.indices[i].length; j < maxj; j += 1) {
+                result = result.concat(
+                    [ normal.x(), normal.y(), normal.z() ]
+                );
+            }
+        }
+
+        return result;
+    };
+
+    shape.prototype.toVertexNormalArray = function () {
+        var result = [];
+
+        // For each face...
+        for (var i = 0, maxi = this.indices.length; i < maxi; i += 1) {
+            // For each vertex in that face...
+            for (var j = 0, maxj = this.indices[i].length; j < maxj; j += 1) {
+                var p = this.vertices[this.indices[i][j]];
+                var normal = new Vector(p[0], p[1], p[2]).unit();
+                result = result.concat(
+                    [ normal.x(), normal.y(), normal.z() ]
                 );
             }
         }

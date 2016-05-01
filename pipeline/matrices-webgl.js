@@ -50,110 +50,6 @@
     var j;
     var maxj;
 
-    /*
-     * This code does not really belong here: it should live
-     * in a separate library of matrix and transformation
-     * functions.  It is here only to show you how matrices
-     * can be used with GLSL.
-     *
-     * Based on the original glRotate reference:
-     *     http://www.opengl.org/sdk/docs/man/xhtml/glRotate.xml
-     */
-    // var getRotationMatrix = function (angle, x, y, z) {
-    //     // In production code, this function should be associated
-    //     // with a matrix object with associated functions.
-    //     var axisLength = Math.sqrt((x * x) + (y * y) + (z * z));
-    //     var s = Math.sin(angle * Math.PI / 180.0);
-    //     var c = Math.cos(angle * Math.PI / 180.0);
-    //     var oneMinusC = 1.0 - c;
-
-    //     // We can't calculate this until we have normalized
-    //     // the axis vector of rotation.
-    //     var x2; // "2" for "squared."
-    //     var y2;
-    //     var z2;
-    //     var xy;
-    //     var yz;
-    //     var xz;
-    //     var xs;
-    //     var ys;
-    //     var zs;
-
-    //     // Normalize the axis vector of rotation.
-    //     x /= axisLength;
-    //     y /= axisLength;
-    //     z /= axisLength;
-
-    //     // *Now* we can calculate the other terms.
-    //     x2 = x * x;
-    //     y2 = y * y;
-    //     z2 = z * z;
-    //     xy = x * y;
-    //     yz = y * z;
-    //     xz = x * z;
-    //     xs = x * s;
-    //     ys = y * s;
-    //     zs = z * s;
-
-    //     // GL expects its matrices in column major order.
-    //     return [
-    //         (x2 * oneMinusC) + c,
-    //         (xy * oneMinusC) + zs,
-    //         (xz * oneMinusC) - ys,
-    //         0.0,
-
-    //         (xy * oneMinusC) - zs,
-    //         (y2 * oneMinusC) + c,
-    //         (yz * oneMinusC) + xs,
-    //         0.0,
-
-    //         (xz * oneMinusC) + ys,
-    //         (yz * oneMinusC) - xs,
-    //         (z2 * oneMinusC) + c,
-    //         0.0,
-
-    //         0.0,
-    //         0.0,
-    //         0.0,
-    //         1.0
-    //     ];
-    // };
-
-    /*
-     * This is another function that really should reside in a
-     * separate library.  But, because the creation of that library
-     * is part of the student course work, we leave it here for
-     * later refactoring and adaptation by students.
-     */
-
-    // var getOrthoMatrix = function (left, right, bottom, top, zNear, zFar) {
-    //     var width = right - left;
-    //     var height = top - bottom;
-    //     var depth = zFar - zNear;
-
-    //     return [
-    //         2.0 / width,
-    //         0.0,
-    //         0.0,
-    //         0.0,
-
-    //         0.0,
-    //         2.0 / height,
-    //         0.0,
-    //         0.0,
-
-    //         0.0,
-    //         0.0,
-    //         -2.0 / depth,
-    //         0.0,
-
-    //         -(right + left) / width,
-    //         -(top + bottom) / height,
-    //         -(zFar + zNear) / depth,
-    //         1.0
-    //     ];
-    // };
-
     // Grab the WebGL rendering context.
     gl = GLSLUtilities.getGL(canvas);
     if (!gl) {
@@ -176,49 +72,98 @@
         // We move our original triangles a bit to accommodate a new addition
         // to the scene (yes, a translation will also do the trick, if it
         // where implemented in this program).
+
+        // new Shape({
+        //     color: { r: 1.0, g: 0.0, b: 0.0},
+        //     specularColor: { r: 1.0, g: 1.0, b: 1.0},
+        //     shininess: 16,
+        //     vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
+        //     normals: new Shape(Shape.icosahedron()).toNormalArray(),
+        //     mode: gl.TRIANGLES,
+        //     translate: {x: 0.0, y: 0.0, z: 0.0},
+        //     axis: {x: 0.0, y: 1.0,z: 1.0},
+        //     rotateAngle: 0,
+        //     scale: {x: 1, y: 1, z: 1},
+        //     children: [new Shape({
+        //         color: { r: 0.5, g: 0.5, b: 0.5},
+        //         shininess: 16,
+        //         specularColor: { r: 1.0, g: 1.0, b: 1.0},
+        //         vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+        //         normals: new Shape(Shape.cube()).toNormalArray(),
+        //         mode: gl.TRIANGLES,
+        //         translate: {x: -3.0, y: 0.0, z: 0.0},
+        //         axis: {x: 1.0, y: 1.0,z: 1.0},
+        //         rotateAngle: 45,
+        //         scale: {x: 1, y: 1, z: 1}
+
+        //     })]
+
+        // }),
+
+        // new Shape({
+        //     translate: {x: 1, y: 0, z: 0},
+        //     axis: {x: 1.0, y: 1.0, z: 1.0},
+        //     rotateAngle: 0,
+        //     color: { r: 1.0, g: 0.0, b: 0.0},
+        //     specularColor: { r: 1.0, g: 1.0, b: 1.0},
+        //     shininess: 16,
+        //     vertices: new Shape(Shape.sphere()).toRawLineArray(),
+        //     normals: new Shape(Shape.sphere()).toNormalArray(),
+        //     mode: gl.LINES,
+        // }),
+
         new Shape({
-            translate: {x: -1, y: 0, z: 0},
+            translate: {x: -1.0, y: 0, z: 0},
             axis: {x: 1.0, y: 1.0, z: 1.0},
             color: { r: 0.0, g: 0.5, b: 0.0 },
-            vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
-            mode: gl.LINES,
+            specularColor: { r: 1.0, g: 1.0, b: 1.0 },
+            vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
+            normals: new Shape(Shape.icosahedron()).toNormalArray(),
+            mode: gl.TRIANGLES,
             scale: {x: 0.7, y: 0.7, z: 0.7},
             children: [new Shape({
-                translate: {x: 1, y: 0, z: 0},
+                translate: {x: 3, y: 0, z: 0},
                 axis: {x: 1.0, y: 1.0, z: 1.0},
                 rotateAngle: 0,
                 color: { r: 1.0, g: 0.0, b: 0.0},
-                vertices: new Shape(Shape.sphere()).toRawLineArray(),
-                mode: gl.LINES,
+                vertices: new Shape(Shape.sphere()).toRawTriangleArray(),
+                normals: new Shape(Shape.sphere()).toNormalArray(),
+                mode: gl.TRIANGLES,
                 children: [new Shape({
-                    translate: {x: 1, y: 0, z: 0},
+                    translate: {x: 1, y: 2, z: 0},
                     axis: {x: 1.0, y: 1.0, z: 1.0},
                     rotateAngle: 0,
                     color: { r: 1.0, g: 1.0, b: 0.0 },
-                    vertices: new Shape(Shape.icosahedron()).toRawLineArray(),
-                    mode: gl.LINES,
+                    vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
+                    normals: new Shape(Shape.icosahedron()).toNormalArray(),
+                    mode: gl.TRIANGLES,
                     children: [new Shape({
-                        translate: {x: 1, y: 0, z: 0},
+                        translate: {x: -2, y: -1, z: 0},
                         axis: {x: 1.0, y: 1.0, z: 1.0},
                         rotateAngle: 0,
                         color: { r: 1.0, g: 0.0, b: 1.0 },
                         vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+                        normals: new Shape(Shape.cone()).toNormalArray(),
                         mode: gl.TRIANGLES,
+                        shininess: 16
                     })]
                 })]
             })]
         }),
 
-        new Shape({
-            color: { r: 0.5, g: 0.5, b: 0.5},
-            vertices: new Shape(Shape.cube()).toRawTriangleArray(),
-            mode: gl.TRIANGLES,
-            translate: {x: 3.0, y: 1.0, z: 1.0},
-            axis: {x: 1.0, y: 1.0,z: 1.0},
-            rotateAngle: 45,
-            scale: {x: 1, y: 1, z: 1}
+        // new Shape({
+        //     color: { r: 0.5, g: 0.5, b: 0.5},
+        //     shininess: 16,
+        //     specularColor: { r: 1.0, g: 1.0, b: 1.0},
+        //     vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+        //     normals: new Shape(Shape.cube()).toNormalArray(),
+        //     mode: gl.TRIANGLES,
+        //     translate: {x: 3.0, y: 1.0, z: 1.0},
+        //     axis: {x: 1.0, y: 1.0,z: 1.0},
+        //     rotateAngle: 45,
+        //     scale: {x: 1, y: 1, z: 1}
 
-        })
+        // })
 
     ];
 
@@ -246,6 +191,28 @@
             }
             objectsToDraw[i].colorBuffer = GLSLUtilities.initVertexBuffer(gl,
                     objectsToDraw[i].colors);
+
+
+                // Same trick with specular colors.
+            if (!objectsToDraw[i].specularColors) {
+                // Future refactor: helper function to convert a single value or
+                // array into an array of copies of itself.
+                objectsToDraw[i].specularColors = [];
+                for (var j = 0, maxj = objectsToDraw[i].vertices.length / 3; j < maxj; j += 1) {
+                    objectsToDraw[i].specularColors = objectsToDraw[i].specularColors.concat(
+                        objectsToDraw[i].specularColor.r,
+                        objectsToDraw[i].specularColor.g,
+                        objectsToDraw[i].specularColor.b
+                    );
+                }
+            }
+
+            objectsToDraw[i].specularBuffer = GLSLUtilities.initVertexBuffer(gl, objectsToDraw[i].specularColors);
+
+             // One more buffer: normals.
+            objectsToDraw[i].normalBuffer = GLSLUtilities.initVertexBuffer(gl, objectsToDraw[i].normals);
+
+
 
             if ((objectsToDraw[i].children.length > 0)) {
                 draw(objectsToDraw[i].children);
@@ -285,8 +252,15 @@
     // Hold on to the important variables within the shaders.
     vertexPosition = gl.getAttribLocation(shaderProgram, "vertexPosition");
     gl.enableVertexAttribArray(vertexPosition);
-    vertexColor = gl.getAttribLocation(shaderProgram, "vertexColor");
-    gl.enableVertexAttribArray(vertexColor);
+    // vertexColor = gl.getAttribLocation(shaderProgram, "vertexColor");
+    // gl.enableVertexAttribArray(vertexColor);
+    var vertexDiffuseColor = gl.getAttribLocation(shaderProgram, "vertexDiffuseColor");
+    gl.enableVertexAttribArray(vertexDiffuseColor);
+    var vertexSpecularColor = gl.getAttribLocation(shaderProgram, "vertexSpecularColor");
+    gl.enableVertexAttribArray(vertexSpecularColor);
+    var normalVector = gl.getAttribLocation(shaderProgram, "normalVector");
+    gl.enableVertexAttribArray(normalVector);
+
 
     // Finally, we come to the typical setup for transformation matrices:
     // model-view and projection, managed separately.
@@ -300,6 +274,12 @@
     orthoProjection = gl.getUniformLocation(shaderProgram, "orthoProjection");
     perspectiveMatrix = gl.getUniformLocation(shaderProgram, "perspectiveMatrix");
 
+    // Note the additional variables.
+    var lightPosition = gl.getUniformLocation(shaderProgram, "lightPosition");
+    var lightDiffuse = gl.getUniformLocation(shaderProgram, "lightDiffuse");
+    var lightSpecular = gl.getUniformLocation(shaderProgram, "lightSpecular");
+    var shininess = gl.getUniformLocation(shaderProgram, "shininess");
+
     // gl.uniformMatrix4fv(perspectiveMatrix, gl.FALSE, new Float32Array(new Matrix().perspective(-2, 2, 2, -2, 20, 2000).conversion()));
     // gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
     // gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix().translate(0, 0, 0).conversion()));
@@ -311,32 +291,13 @@
     drawObject = function (object, parentMatrix) {
         // Set the varying colors.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.colorBuffer);
-        gl.vertexAttribPointer(vertexColor, 3, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(vertexDiffuseColor, 3, gl.FLOAT, false, 0, 0);
 
+        gl.bindBuffer(gl.ARRAY_BUFFER, object.specularBuffer);
+        gl.vertexAttribPointer(vertexSpecularColor, 3, gl.FLOAT, false, 0, 0);
 
-        // var inputMatrix = new Matrix();
-
-
-        // inputMatrix.multiply(new Matrix(new Matrix().scale(object.scaleX, object.scaleY, object.scaleZ)));
-        // inputMatrix.multiply(new Matrix(new Matrix().translate(object.translateX, object.translateY, object.translateZ)));
-        // inputMatrix.multiply(new Matrix(new Matrix().rotate(object.rotateAngle, object.rotateX, object.rotateY, object.rotateZ)));
-
-        
-
-        // gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "projectionMatrix"), gl.FALSE, inputMatrix.conversion());
-
-        // inputMatrix = mul
-
-        // Set up the model-view matrix, if an axis is included.  If not, we
-        // specify the identity matrix.
-
-
-
-        // gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.translate ?
-        //     new Matrix().translate(object.translate.x, object.translate.y, object.translate.z).multiply(
-        //         new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z)).multiply(
-        //         new Matrix().scale(object.scale.x, object.scale.y, object.scale.z)).conversion() : new Matrix().conversion()));
-
+        // Set the shininess.
+        gl.uniform1f(shininess, object.shininess);
 
         var myMatrix = multiplyMatricies(object);
         
@@ -346,23 +307,11 @@
             object.rotateAngle = currentRotation;
         }
 
-//        for (i = 0; i < object.children.length; i += 1) {
-//            multiplyMatricies(object.children[i]);
-//        }
-
-
-        // gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(object.axis ?
-        //     new Matrix().rotate(currentRotation, object.axis.x, object.axis.y, object.axis.z).conversion() : new Matrix().conversion()));
-
-
-        // gl.uniformMatrix4fv(perspectiveMatrix, gl.FALSE, new Float32Array(new Matrix().perspective(-2, 2, 2, -2, 20, 2000).conversion()));
-        // gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
-        // gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(inputMatrix.conversion()));
-        
-
-        // console.log(object);
-
         gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(myMatrix.conversion()));
+
+        // Set the varying normal vectors.
+        gl.bindBuffer(gl.ARRAY_BUFFER, object.normalBuffer);
+        gl.vertexAttribPointer(normalVector, 3, gl.FLOAT, false, 0, 0);
 
         // Set the varying vertex coordinates.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.buffer);
@@ -375,20 +324,6 @@
             }
         }
     };
-
-    // multiplyMatricies = function (object, matrix) {
-
-    //     matrix.data = matrix.multiply(new Matrix().scale(object.scale.x, object.scale.y, object.scale.z));
-    //     matrix.data = matrix.multiply(new Matrix().translate(object.translate.x, object.translate.y, object.translate.z));
-    //     matrix.data = matrix.multiply(new Matrix().rotate(object.rotateAngle, object.rotate.x, object.rotate.y, object.rotate.z));
-
-    //     // gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "modelViewMatrix"), gl.FALSE, matrix.conversion());
-
-    //     // gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(matrix.conversion()));
-
-    //     return matrix;
-
-    // }
 
     multiplyMatricies = function (object) {
         return new Matrix().translate(object.translate.x, object.translate.y, object.translate.z).multiply(
@@ -471,6 +406,12 @@
         previousTimestamp = timestamp;
         window.requestAnimationFrame(advanceScene);
     };
+
+    gl.uniform4fv(lightPosition, [500.0, 1000.0, 100.0, 1.0]);
+    gl.uniform3fv(lightDiffuse, [1.0, 1.0, 1.0]);
+    gl.uniform3fv(lightSpecular, [1.0, 1.0, 1.0]);
+
+
 
     // Draw the initial scene.
     drawScene();

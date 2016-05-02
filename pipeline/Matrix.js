@@ -160,6 +160,19 @@ var Matrix = (function () {
 		return resultMatrix;
 	};
 
+	matrix.getLookAtMatrix = function (p, q, v){
+        var ze = (p.subtract(q)).unit(),
+            ye = (v.subtract(v.projection(ze))).unit(),
+            xe = ye.cross(ze);
+
+        return new Matrix(
+            xe.x(), xe.y(), xe.z(), -(p.dot(xe)),
+            ye.x(), ye.y(), ye.z(), -(p.dot(ye)),
+            ze.x(), ze.y(), ze.z(), -(p.dot(ze)),
+            0,0,0,1
+        );
+    };
+
 	return matrix;
 
 })();

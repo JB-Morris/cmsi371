@@ -100,27 +100,29 @@
 
         // }),
 
+
         // new Shape({
-        //     translate: {x: 1, y: 0, z: 0},
+        //     translate: {x: 0, y: 0, z: -10},
         //     axis: {x: 1.0, y: 1.0, z: 1.0},
-        //     rotateAngle: 0,
+        //     // rotateAngle: 0,
+        //     scale: {x: 2.0, y: 2.0, z: 2.0},
         //     color: { r: 1.0, g: 0.0, b: 0.0},
         //     specularColor: { r: 1.0, g: 1.0, b: 1.0},
         //     shininess: 16,
-        //     vertices: new Shape(Shape.sphere()).toRawLineArray(),
-        //     normals: new Shape(Shape.sphere()).toNormalArray(),
-        //     mode: gl.LINES,
+        //     vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
+        //     normals: new Shape(Shape.icosahedron()).toNormalArray(),
+        //     mode: gl.TRIANGLES,
         // }),
 
         new Shape({
-            translate: {x: -1.0, y: 0, z: 0},
+            translate: {x: 0.0, y: 0.0, z: -10},
             axis: {x: 1.0, y: 1.0, z: 1.0},
             color: { r: 0.0, g: 0.5, b: 0.0 },
             specularColor: { r: 1.0, g: 1.0, b: 1.0 },
-            vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
-            normals: new Shape(Shape.icosahedron()).toNormalArray(),
+            vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+            normals: new Shape(Shape.cube()).toNormalArray(),
             mode: gl.TRIANGLES,
-            scale: {x: 0.7, y: 0.7, z: 0.7},
+            scale: {x: 1.0, y: 1.0, z: 1.0},
             children: [new Shape({
                 translate: {x: 3, y: 0, z: 0},
                 axis: {x: 1.0, y: 1.0, z: 1.0},
@@ -130,7 +132,7 @@
                 normals: new Shape(Shape.sphere()).toNormalArray(),
                 mode: gl.TRIANGLES,
                 children: [new Shape({
-                    translate: {x: 1, y: 2, z: 0},
+                    translate: {x: 0, y: 2, z: 0},
                     axis: {x: 1.0, y: 1.0, z: 1.0},
                     rotateAngle: 0,
                     color: { r: 1.0, g: 1.0, b: 0.0 },
@@ -158,10 +160,10 @@
         //     vertices: new Shape(Shape.cube()).toRawTriangleArray(),
         //     normals: new Shape(Shape.cube()).toNormalArray(),
         //     mode: gl.TRIANGLES,
-        //     translate: {x: 3.0, y: 1.0, z: 1.0},
+        //     translate: {x: 0.0, y: 0.0, z: -10.0},
         //     axis: {x: 1.0, y: 1.0,z: 1.0},
         //     rotateAngle: 45,
-        //     scale: {x: 1, y: 1, z: 1}
+        //     scale: {x: 1, y: 1, z: 1},
 
         // })
 
@@ -280,14 +282,17 @@
     var lightSpecular = gl.getUniformLocation(shaderProgram, "lightSpecular");
     var shininess = gl.getUniformLocation(shaderProgram, "shininess");
 
-    // gl.uniformMatrix4fv(perspectiveMatrix, gl.FALSE, new Float32Array(new Matrix().perspective(-2, 2, 2, -2, 20, 2000).conversion()));
+    
     // gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
     // gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix().translate(0, 0, 0).conversion()));
+    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Matrix().perspective(-4, 4, 2, -2, 5, 2000).conversion());
+    
 
     /*
      * Displays an individual object, including a transformation that now varies
      * for each object drawn.
      */
+    var addRotation = 0;
     drawObject = function (object, parentMatrix) {
         // Set the varying colors.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.colorBuffer);
@@ -304,10 +309,17 @@
         if (parentMatrix) {
             myMatrix = parentMatrix.multiply(myMatrix);
         }else {
-            object.rotateAngle = currentRotation;
+            if (!addRotation){
+                addRotation = object.rotateAngle;
+            }
+            object.rotateAngle = currentRotation + addRotation;
         }
 
         gl.uniformMatrix4fv(modelViewMatrix, gl.FALSE, new Float32Array(myMatrix.conversion()));
+        // gl.uniformMatrix4fv(rotateMatrix, gl.FALSE, new Float32Array(new Matrix().rotate(object.rotateAngle, object.axis.x, object.axis.y, object.axis.z).conversion()));
+
+
+
 
         // Set the varying normal vectors.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.normalBuffer);
@@ -339,6 +351,7 @@
         // Clear the display.
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+        // gl.uniformMatrix4fv(rotateMatrix, gl.FALSE, new Matrix().rotate(currentRotation, 1.0, 1.0, 1.0).conversion());
 
         // Display the objects.
         for (i = 0, maxi = objectsToDraw.length; i < maxi; i += 1) {
@@ -363,14 +376,14 @@
     // the z range now.
 
 
-    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Float32Array(new Matrix().orthoProjection(
-        -2 * (canvas.width / canvas.height),
-        2 * (canvas.width / canvas.height),
-        -2,
-        2,
-        -10,
-        10
-    ).conversion()));
+    // gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Float32Array(new Matrix().orthoProjection(
+    //     -2 * (canvas.width / canvas.height),
+    //     2 * (canvas.width / canvas.height),
+    //     -2,
+    //     2,
+    //     -10,
+    //     10
+    // ).conversion()));
 
     // Animation initialization/support.
     previousTimestamp = null;
@@ -407,7 +420,7 @@
         window.requestAnimationFrame(advanceScene);
     };
 
-    gl.uniform4fv(lightPosition, [500.0, 1000.0, 100.0, 1.0]);
+    gl.uniform4fv(lightPosition, [500.0, 500.0, 100.0, 1.0]);
     gl.uniform3fv(lightDiffuse, [1.0, 1.0, 1.0]);
     gl.uniform3fv(lightSpecular, [1.0, 1.0, 1.0]);
 

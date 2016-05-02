@@ -78,8 +78,9 @@
         void main(void) {
           // We "merely" relay these vectors to the fragment shader.  However,
           // we get a cool trick: they get interpolated for us!
-          fragmentNormal = normalVector;
-          fragmentEye = vertexPosition;
+          fragmentNormal = vec3(projectionMatrix * modelViewMatrix * vec4(normalVector, 1.0));
+          vec4 finalVertexPosition = projectionMatrix * modelViewMatrix * vec4(2.0 * vertexPosition, 1.0);
+          fragmentEye = vec3(finalVertexPosition);
           fragmentLight = lightPosition.xyz;
 
           // No conditional expressions in GLSL, unfortunately.  We have to
@@ -92,7 +93,7 @@
           // We now defer all color calculations to the fragment shader.
           fragmentDiffuseColor = vertexDiffuseColor;
           fragmentSpecularColor = vertexSpecularColor;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(2.0 * vertexPosition, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
       }
     </script>
 

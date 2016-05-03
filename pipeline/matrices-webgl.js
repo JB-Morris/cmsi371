@@ -153,19 +153,19 @@
             })]
         }),
 
-        // new Shape({
-        //     color: { r: 0.5, g: 0.5, b: 0.5},
-        //     shininess: 16,
-        //     specularColor: { r: 1.0, g: 1.0, b: 1.0},
-        //     vertices: new Shape(Shape.cube()).toRawTriangleArray(),
-        //     normals: new Shape(Shape.cube()).toNormalArray(),
-        //     mode: gl.TRIANGLES,
-        //     translate: {x: 0.0, y: 0.0, z: -10.0},
-        //     axis: {x: 1.0, y: 1.0,z: 1.0},
-        //     rotateAngle: 45,
-        //     scale: {x: 1, y: 1, z: 1},
+        new Shape({
+            color: { r: 1.0, g: 0.0, b: 0.0},
+            shininess: 16,
+            specularColor: { r: 1.0, g: 1.0, b: 1.0},
+            vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+            normals: new Shape(Shape.cube()).toNormalArray(),
+            mode: gl.TRIANGLES,
+            translate: {x: -2.0, y: 0.0, z: -10.0},
+            axis: {x: 1.0, y: 1.0,z: 1.0},
+            rotateAngle: 0,
+            scale: {x: 1, y: 1, z: 1},
 
-        // })
+        })
 
     ];
 
@@ -285,7 +285,7 @@
     
     // gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
     // gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix().translate(0, 0, 0).conversion()));
-    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Matrix().perspective(-4, 4, 2, -2, 5, 2000).conversion());
+    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Matrix().perspective(-2 * (canvas.width / canvas.height), 2 * (canvas.width / canvas.height), 2, -2, 5, 2000).conversion());
     
 
     /*

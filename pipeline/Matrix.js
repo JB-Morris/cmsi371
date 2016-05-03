@@ -160,7 +160,7 @@ var Matrix = (function () {
 		return resultMatrix;
 	};
 
-	matrix.getLookAtMatrix = function (p, q, v){
+	matrix.camera = function (p, q, v){
         var ze = (p.subtract(q)).unit(),
             ye = (v.subtract(v.projection(ze))).unit(),
             xe = ye.cross(ze);

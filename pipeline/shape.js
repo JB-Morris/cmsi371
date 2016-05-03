@@ -140,7 +140,7 @@ var Shape = (function () {
         }
 
         return {
-            vertices: vertices.reverse(),
+            vertices: vertices,
             indices: indices
         };
 
@@ -321,6 +321,37 @@ var Shape = (function () {
         }
 
         return result;
+    };
+
+    Matrix.prototype.camera = function (px, py, pz, fx, fy, fz, ux, uy, uz) {
+        var cameraPosition = new Vector(px, py, pz),
+            focusPoint = new Vector(fx, fy, fz),
+            upVector = new Vector(ux, uy, uz);
+
+        var newZAxis = cameraPosition.subtract(focusPoint).unit(),
+            newYAxis = upVector.subtract(upVector.projection(newZAxis)),
+            newXAxis = newYAxis.cross(newZAxis);
+
+        return new Matrix([
+            newXAxis.x(),
+            newYAxis.x(),
+            newZAxis.x(),
+            0,
+
+            newXAxis.y(),
+            newYAxis.y(),
+            newZAxis.y(),
+            0,
+
+            newXAxis.z(),
+            newYAxis.z(),
+            newZAxis.z(),
+            0,
+
+            -1 * cameraPosition.dot(newXAxis),
+            -1 * cameraPosition.dot(newYAxis),
+            -1 * cameraPosition.dot(newZAxis),
+            1]);
     };
 
     return shape;

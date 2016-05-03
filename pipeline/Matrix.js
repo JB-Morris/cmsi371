@@ -160,17 +160,35 @@ var Matrix = (function () {
 		return resultMatrix;
 	};
 
-	matrix.camera = function (p, q, v){
-        var ze = (p.subtract(q)).unit(),
-            ye = (v.subtract(v.projection(ze))).unit(),
-            xe = ye.cross(ze);
+	matrix.prototype.camera = function (px, py, pz, fx, fy, fz, ux, uy, uz) {
+        var cameraPosition = new Vector(px, py, pz),
+            focusPoint = new Vector(fx, fy, fz),
+            upVector = new Vector(ux, uy, uz);
 
-        return new Matrix(
-            xe.x(), xe.y(), xe.z(), -(p.dot(xe)),
-            ye.x(), ye.y(), ye.z(), -(p.dot(ye)),
-            ze.x(), ze.y(), ze.z(), -(p.dot(ze)),
-            0,0,0,1
-        );
+        var newZAxis = cameraPosition.subtract(focusPoint).unit(),
+            newYAxis = upVector.subtract(upVector.projection(newZAxis)),
+            newXAxis = newYAxis.cross(newZAxis);
+
+        return new Matrix([
+            newXAxis.x(),
+            newYAxis.x(),
+            newZAxis.x(),
+            0,
+
+            newXAxis.y(),
+            newYAxis.y(),
+            newZAxis.y(),
+            0,
+
+            newXAxis.z(),
+            newYAxis.z(),
+            newZAxis.z(),
+            0,
+
+            -1 * cameraPosition.dot(newXAxis),
+            -1 * cameraPosition.dot(newYAxis),
+            -1 * cameraPosition.dot(newZAxis),
+            1]);
     };
 
 	return matrix;

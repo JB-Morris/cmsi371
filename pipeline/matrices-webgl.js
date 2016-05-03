@@ -114,6 +114,7 @@
         //     mode: gl.TRIANGLES,
         // }),
 
+
         new Shape({
             translate: {x: 0.0, y: 0.0, z: -10},
             axis: {x: 1.0, y: 1.0, z: 1.0},
@@ -268,6 +269,7 @@
     // model-view and projection, managed separately.
     modelViewMatrix = gl.getUniformLocation(shaderProgram, "modelViewMatrix");
     projectionMatrix = gl.getUniformLocation(shaderProgram, "projectionMatrix");
+    cameraMatrix = gl.getUniformLocation(shaderProgram, "cameraMatrix");
     
     translateMatrix = gl.getUniformLocation(shaderProgram, "translationMatrix");
     scaleMatrix = gl.getUniformLocation(shaderProgram, "scaleMatrix");
@@ -285,7 +287,7 @@
     
     // gl.uniformMatrix4fv(scaleMatrix, gl.FALSE, new Float32Array(new Matrix().scale(1, 1, 1).conversion()));
     // gl.uniformMatrix4fv(translateMatrix, gl.FALSE, new Float32Array(new Matrix().translate(0, 0, 0).conversion()));
-    gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Matrix().perspective(-2 * (canvas.width / canvas.height), 2 * (canvas.width / canvas.height), 2, -2, 5, 2000).conversion());
+    
     
 
     /*
@@ -352,6 +354,9 @@
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         // gl.uniformMatrix4fv(rotateMatrix, gl.FALSE, new Matrix().rotate(currentRotation, 1.0, 1.0, 1.0).conversion());
+
+        gl.uniformMatrix4fv(projectionMatrix, gl.FALSE, new Matrix().perspective(-2 * (canvas.width / canvas.height), 2 * (canvas.width / canvas.height), 2, -2, 5, 2000).conversion());
+        gl.uniformMatrix4fv(cameraMatrix, gl.FALSE, new Matrix().camera(0, 0, 0, 0, 0, -1, 0, 1, 0).conversion());
 
         // Display the objects.
         for (i = 0, maxi = objectsToDraw.length; i < maxi; i += 1) {

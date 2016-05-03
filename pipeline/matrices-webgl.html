@@ -59,6 +59,7 @@
         // varying vec4 finalVertexColor;
         uniform mat4 projectionMatrix;
         uniform mat4 modelViewMatrix;
+        uniform mat4 cameraMatrix;
 
 
         // We don't calculate color in the vertex shader anymore.  Instead,
@@ -78,8 +79,8 @@
         void main(void) {
           // We "merely" relay these vectors to the fragment shader.  However,
           // we get a cool trick: they get interpolated for us!
-          fragmentNormal = vec3(projectionMatrix * modelViewMatrix * vec4(normalVector, 1.0));
-          vec4 finalVertexPosition = projectionMatrix * modelViewMatrix * vec4(2.0 * vertexPosition, 1.0);
+          fragmentNormal = vec3(projectionMatrix * modelViewMatrix * cameraMatrix * vec4(normalVector, 1.0));
+          vec4 finalVertexPosition = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
           fragmentEye = vec3(finalVertexPosition);
           fragmentLight = lightPosition.xyz;
 
@@ -93,9 +94,15 @@
           // We now defer all color calculations to the fragment shader.
           fragmentDiffuseColor = vertexDiffuseColor;
           fragmentSpecularColor = vertexSpecularColor;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0) * cameraMatrix;
+
+
+
+
+
+
       }
-    </script>
+    </script>
 
     <!-- The fragment shader produces a single unconditional color. -->
     <script id="fragment-shader" type="x-shader/x-fragment">

@@ -127,8 +127,10 @@ var Shape = (function () {
                 var indexPartTwo = indexPartOne + longitudeLines + 1;
                 
                 if (currentLatitude != latitudeLines && currentLongitude != longitudeLines){
-                    indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
-                    indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1]);
+                    // indices.push([ indexPartOne, indexPartTwo, indexPartOne + 1 ]);
+                    // indices.push([ indexPartTwo, indexPartTwo + 1, indexPartOne + 1 ]);
+                    indices.push([ indexPartOne + 1, indexPartTwo, indexPartOne ]);
+                    indices.push([ indexPartOne + 1, indexPartTwo + 1, indexPartTwo ])
 
                 }
 
@@ -138,7 +140,7 @@ var Shape = (function () {
         }
 
         return {
-            vertices: vertices,
+            vertices: vertices.reverse(),
             indices: indices
         };
 
@@ -201,7 +203,8 @@ var Shape = (function () {
         }
 
         for (var i = 0; i < indexCount  + 1; i += 1) {
-            indices.push([ 0, (i + 1) % indexCount, (i + 3) % indexCount ]);
+            // indices.push([ 0, (i + 1) % indexCount, (i + 3) % indexCount ]);
+            indices.push([ (i + 3) % indexCount, (i + 1) % indexCount, 0 ]);
         }
         
         // for (var i = 2; i < indexCount; i += 1) {
@@ -274,14 +277,10 @@ var Shape = (function () {
 
     shape.prototype.toNormalArray = function () {
         var result = [];
-        // console.log(this.indices);
-        // console.log(this.vertices);
 
         // For each face...
         for (var i = 0, maxi = this.indices.length; i < maxi; i += 1) {
             // We form vectors from the first and second then second and third vertices.
-
-            // console.log(i);
 
             var p0 = this.vertices[this.indices[i][0]];
             var p1 = this.vertices[this.indices[i][1]];

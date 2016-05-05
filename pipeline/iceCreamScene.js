@@ -114,59 +114,70 @@
         //     mode: gl.TRIANGLES,
         // }),
 
-
         new Shape({
-            translate: {x: 0.0, y: 0.0, z: -10},
-            axis: {x: 1.0, y: 1.0, z: 1.0},
-            color: { r: 0.0, g: 0.5, b: 0.0 },
-            specularColor: { r: 1.0, g: 1.0, b: 1.0 },
-            vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
-            normals: new Shape(Shape.icosahedron()).toNormalArray(),
-            mode: gl.TRIANGLES,
-            scale: {x: 1.0, y: 1.0, z: 1.0},
-            children: [new Shape({
-                translate: {x: 3, y: 0, z: 0},
-                axis: {x: 1.0, y: 1.0, z: 1.0},
-                rotateAngle: 0,
-                color: { r: 1.0, g: 0.0, b: 0.0},
-                vertices: new Shape(Shape.sphere()).toRawTriangleArray(),
-                normals: new Shape(Shape.sphere()).toNormalArray(),
-                mode: gl.TRIANGLES,
-                children: [new Shape({
-                    translate: {x: 0, y: 2, z: 0},
-                    axis: {x: 1.0, y: 1.0, z: 1.0},
-                    rotateAngle: 0,
-                    color: { r: 1.0, g: 1.0, b: 0.0 },
-                    vertices: new Shape(Shape.cube()).toRawTriangleArray(),
-                    normals: new Shape(Shape.cube()).toNormalArray(),
-                    mode: gl.TRIANGLES,
-                    children: [new Shape({
-                        translate: {x: -1.5, y: -1, z: 0},
-                        axis: {x: 1.0, y: 1.0, z: 1.0},
-                        rotateAngle: 0,
-                        color: { r: 1.0, g: 0.0, b: 1.0 },
-                        vertices: new Shape(Shape.cone()).toRawTriangleArray(),
-                        normals: new Shape(Shape.cone()).toNormalArray(),
-                        mode: gl.TRIANGLES,
-                        shininess: 16
-                    })]
-                })]
-            })]
-        }),
-
-        new Shape({
-            color: { r: 1.0, g: 0.0, b: 0.0},
-            shininess: 16,
-            specularColor: { r: 1.0, g: 1.0, b: 1.0},
-            vertices: new Shape(Shape.cube()).toRawTriangleArray(),
-            normals: new Shape(Shape.cube()).toNormalArray(),
-            mode: gl.TRIANGLES,
-            translate: {x: -2.0, y: 0.0, z: -10.0},
-            axis: {x: 1.0, y: 1.0,z: 1.0},
-            rotateAngle: 0,
-            scale: {x: 1, y: 1, z: 1},
-
+            translate: {x: 0.0, y: -0.5, z: -10},
+            scale: {x: 2.0, y: 2.0, z: 2.0},
+            axis: {x: 0.0, y: 1.0, z: 0.0},
+            color: { r: 1.0, g: 0.8, b: 0.5 },
+            specularColor: { r: 0.0, g: 0.0, b: 0.0 },
+            vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+            normals: new Shape(Shape.cone()).toNormalArray(),
+            mode: gl.TRIANGLES
         })
+
+
+        // new Shape({
+        //     translate: {x: 0.0, y: 0.0, z: -10},
+        //     axis: {x: 1.0, y: 1.0, z: 1.0},
+        //     color: { r: 0.0, g: 0.5, b: 0.0 },
+        //     specularColor: { r: 1.0, g: 1.0, b: 1.0 },
+        //     vertices: new Shape(Shape.icosahedron()).toRawTriangleArray(),
+        //     normals: new Shape(Shape.icosahedron()).toNormalArray(),
+        //     mode: gl.TRIANGLES,
+        //     scale: {x: 1.0, y: 1.0, z: 1.0},
+        //     children: [new Shape({
+        //         translate: {x: 3, y: 0, z: 0},
+        //         axis: {x: 1.0, y: 1.0, z: 1.0},
+        //         rotateAngle: 0,
+        //         color: { r: 1.0, g: 0.0, b: 0.0},
+        //         vertices: new Shape(Shape.sphere()).toRawTriangleArray(),
+        //         normals: new Shape(Shape.sphere()).toNormalArray(),
+        //         mode: gl.TRIANGLES,
+        //         children: [new Shape({
+        //             translate: {x: 0, y: 2, z: 0},
+        //             axis: {x: 1.0, y: 1.0, z: 1.0},
+        //             rotateAngle: 0,
+        //             color: { r: 1.0, g: 1.0, b: 0.0 },
+        //             vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+        //             normals: new Shape(Shape.cube()).toNormalArray(),
+        //             mode: gl.TRIANGLES,
+        //             children: [new Shape({
+        //                 translate: {x: -1.5, y: -1, z: 0},
+        //                 axis: {x: 1.0, y: 1.0, z: 1.0},
+        //                 rotateAngle: 0,
+        //                 color: { r: 1.0, g: 0.0, b: 1.0 },
+        //                 vertices: new Shape(Shape.cone()).toRawTriangleArray(),
+        //                 normals: new Shape(Shape.cone()).toNormalArray(),
+        //                 mode: gl.TRIANGLES,
+        //                 shininess: 16
+        //             })]
+        //         })]
+        //     })]
+        // }),
+
+        // new Shape({
+        //     color: { r: 1.0, g: 0.0, b: 0.0},
+        //     shininess: 16,
+        //     specularColor: { r: 1.0, g: 1.0, b: 1.0},
+        //     vertices: new Shape(Shape.cube()).toRawTriangleArray(),
+        //     normals: new Shape(Shape.cube()).toNormalArray(),
+        //     mode: gl.TRIANGLES,
+        //     translate: {x: -2.0, y: 0.0, z: -10.0},
+        //     axis: {x: 1.0, y: 1.0,z: 1.0},
+        //     rotateAngle: 0,
+        //     scale: {x: 1, y: 1, z: 1},
+
+        // })
 
     ];
 
@@ -294,7 +305,7 @@
      * Displays an individual object, including a transformation that now varies
      * for each object drawn.
      */
-    var addRotation = 0;
+    var addRotation = 0; //somehwat broken
     drawObject = function (object, parentMatrix) {
         // Set the varying colors.
         gl.bindBuffer(gl.ARRAY_BUFFER, object.colorBuffer);
@@ -389,6 +400,43 @@
     //     -10,
     //     10
     // ).conversion()));
+    var scoops = -1;
+    addScoop = function (color) {
+        animationActive = true;
+        if(scoops < 2){
+            scoops += 1;
+            objectsToDraw[0].children[scoops] = new Shape({
+                translate: {x: 0.0, y: scoops/2.0 + 0.8 , z: 0.0},
+                axis: {x: 0.0, y: 1.0, z: 0.0},
+                rotateAngle: 0,
+                color: color,
+                vertices: new Shape(Shape.sphere()).toRawTriangleArray(),
+                normals: new Shape(Shape.sphere()).toNormalArray(),
+                mode: gl.TRIANGLES,
+                shininess: 50
+            });
+            
+            draw(objectsToDraw);
+            window.requestAnimationFrame(advanceScene);
+
+        } else {
+            alert("Whoa, slow down. 3 scoops only.");
+        }
+    };
+
+    removeScoop = function () {
+        animationActive = true;
+        if(scoops >= 0){
+            objectsToDraw[0].children[scoops] = {};
+            objectsToDraw[0].children.length -= 1;
+            scoops -= 1;
+
+            draw(objectsToDraw);
+            window.requestAnimationFrame(advanceScene);
+        } else {
+            alert("You're cone is empty dude");
+        }
+    };
 
     // Animation initialization/support.
     previousTimestamp = null;

@@ -183,9 +183,9 @@ var Shape = (function () {
     shape.cone = function (r) {
         indexCount = 50;
         var radius = r || 0.5;
-        var coneBase = -0.5
+        var coneBase = 0.5
         var vertices = [
-            [ 0, 0.5, 0 ],
+            [ 0, -0.5, 0 ],
             // [ 0, -0.5, 0 ]
         ];
 

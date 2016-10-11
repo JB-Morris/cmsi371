@@ -170,6 +170,8 @@
 
     ];
 
+    console.log(objectsToDraw[0]);
+
     // Pass the vertices to WebGL.
     var draw = function (objectsToDraw) {
 
